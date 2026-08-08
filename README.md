@@ -27,11 +27,7 @@ Or edit the home title / build marker in `SwiftMinimal/ContentView.swift` by han
 ## Local build (optional)
 
 ```bash
-xcodebuild -project SwiftMinimal.xcodeproj \
-  -scheme SwiftMinimal -configuration Debug \
-  -sdk iphonesimulator \
-  -destination 'generic/platform=iOS Simulator' \
-  -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
 ```
 
 ## Revyl wiring

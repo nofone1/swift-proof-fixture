@@ -30,8 +30,19 @@ Or edit the home title / build marker in `SwiftMinimal/ContentView.swift` by han
 xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
 ```
 
-## Revyl wiring
+## Revyl wiring (local / revyl-dev)
 
-- Org app: `swift-proof-fixture` (iOS)
-- GitHub App must be installed on `nofone1` (or this repo)
-- After editing `.revyl/config.yaml`, either merge to the default branch or run `revyl github push`
+This fixture dogfoods against the **local** Revyl stack and the **revyl-dev** GitHub App
+(not production `revyl` / `app.revyl.ai`).
+
+- Org app: `swift-proof-fixture` (iOS) on the local/staging org
+- GitHub App: [revyl-dev](https://github.com/apps/revyl-dev) installed on `nofone1` (or this repo)
+- Apply config with the worktree CLI against localhost:
+
+```bash
+revyl-copenhagen github push --repo nofone1/swift-proof-fixture
+# or: revyl --dev github push --repo nofone1/swift-proof-fixture
+```
+
+Do **not** use the global production `revyl github push` for this repo — that attaches
+production `revyl[bot]` instead of `revyl-dev`.

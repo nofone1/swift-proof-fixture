@@ -1,4 +1,5 @@
 # Minimal native SwiftUI fixture for Revyl proof-of-changes dogfood.
+# Wired to the local/staging stack via revyl-dev GitHub App.
 # Project scheme names stay SwiftMinimal (matches xcodeproj); repo brand is swift-proof-fixture.
 
 project:
@@ -11,7 +12,7 @@ build:
             command: xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
             output: build/Build/Products/Debug-iphonesimulator/*.app
             scheme: SwiftMinimal
-            app_id: 61a3d740-266b-4fac-aa52-3cb8b987833c
+            app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
 
 defaults:
     open_browser: true
@@ -29,7 +30,7 @@ pr_review:
         ios:
             enabled: true
             framework: native_ios
-            app: 61a3d740-266b-4fac-aa52-3cb8b987833c
+            app: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
             root_dir: ./
             # One line: remote runners execute each build_command line separately.
             build_command: xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build

@@ -8,11 +8,7 @@ build:
     system: Xcode
     platforms:
         ios:
-            command: >
-                xcodebuild -project SwiftMinimal.xcodeproj
-                -scheme SwiftMinimal -configuration Debug
-                -sdk iphonesimulator -derivedDataPath build
-                CODE_SIGNING_ALLOWED=NO
+            command: xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
             output: build/Build/Products/Debug-iphonesimulator/*.app
             scheme: SwiftMinimal
             app_id: 61a3d740-266b-4fac-aa52-3cb8b987833c
@@ -35,10 +31,6 @@ pr_review:
             framework: native_ios
             app: 61a3d740-266b-4fac-aa52-3cb8b987833c
             root_dir: ./
-            build_command: |
-                xcodebuild -project SwiftMinimal.xcodeproj \
-                  -scheme SwiftMinimal -configuration Debug \
-                  -sdk iphonesimulator \
-                  -destination 'generic/platform=iOS Simulator' \
-                  -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+            # One line: remote runners execute each build_command line separately.
+            build_command: xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
             artifact_path: build/Build/Products/Debug-iphonesimulator/*.app

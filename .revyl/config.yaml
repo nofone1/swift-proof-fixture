@@ -25,7 +25,7 @@ pr_review:
         preview_link: true
         proof_of_changes: true
         proof_harness:
-            kind: revyl
+            kind: cursor
         # Empty on purpose: the agent verifies what the pull request changed.
         checks: []
         system_prompt: |

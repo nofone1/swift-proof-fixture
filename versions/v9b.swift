@@ -5,10 +5,10 @@ struct ContentView: View {
         VStack(spacing: 16) {
             Text("Swift Proof Fixture")
                 .font(.largeTitle)
-            Text("DOGFOOD MARKER v28")
+            Text("DOGFOOD CURSOR v9b")
                 .font(.title2)
                 .foregroundStyle(.primary)
-            Text("Harness track UI marker — version v28")
+            Text("Harness track UI marker — version 9b")
                 .font(.body)
                 .multilineTextAlignment(.center)
                 .padding()

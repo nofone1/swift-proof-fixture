@@ -24,6 +24,11 @@ pr_review:
     actions:
         preview_link: true
         proof_of_changes: true
+        # model_id is a retired Cursor model on purpose: it exercises the
+        # fallback that launches on Auto instead of failing the pull request.
+        proof_harness:
+            kind: cursor
+            model_id: claude-3-opus
         # Empty on purpose: the agent verifies what the pull request changed.
         checks: []
     builds:

@@ -1,41 +1,32 @@
-# Minimal native SwiftUI fixture for Revyl proof-of-changes dogfood.
-# Wired to the local/staging stack via revyl-dev GitHub App.
-# Project scheme names stay SwiftMinimal (matches xcodeproj); repo brand is swift-proof-fixture.
-
 project:
-    name: swift-proof-fixture
-
+    id: c18eb60f-3379-5a7a-9fbe-ffe0fbf9940c
+session:
+    idle_timeout_seconds: 600
 build:
-    system: Xcode
-    platforms:
-        ios:
-            command: xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
-            output: build/Build/Products/Debug-iphonesimulator/*.app
-            scheme: SwiftMinimal
-            app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
-
-defaults:
-    open_browser: true
-    timeout: 600
-
+    framework: ios
+    profiles:
+        development:
+            ios:
+                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
+                build_commands:
+                    - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+                output_path: build/Build/Products/Debug-iphonesimulator/*.app
+        pr-review:
+            ios:
+                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
+                build_commands:
+                    - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+                output_path: build/Build/Products/Debug-iphonesimulator/*.app
 pr_review:
     enabled: true
-    skip_drafts: true
-    actions:
-        preview_link: true
-        proof_of_changes: true
-        # No model_id: proofs run on Cursor Auto, so a retired pin can never
-        # be what breaks this fixture.
-        proof_harness:
-            kind: cursor
-        # Empty on purpose: the agent verifies what the pull request changed.
-        checks: []
-    builds:
-        ios:
-            enabled: true
-            framework: native_ios
-            app: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
-            root_dir: ./
-            # One line: remote runners execute each build_command line separately.
-            build_command: xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
-            artifact_path: build/Build/Products/Debug-iphonesimulator/*.app
+    review_triggers:
+        drafts: false
+    build:
+        kind: revyl
+        profile: pr-review
+    proof_of_changes:
+        enabled: true
+        harness:
+            kind: revyl
+    strict_ci_check:
+        build: true

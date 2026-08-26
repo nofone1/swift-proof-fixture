@@ -54,6 +54,7 @@ struct ContentView: View {
                             screen = .details
                         }
                         .buttonStyle(.borderedProminent)
+                        .disabled(true)
                     }
                 } else {
                     infoCard {

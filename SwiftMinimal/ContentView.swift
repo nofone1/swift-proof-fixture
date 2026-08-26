@@ -43,6 +43,7 @@ struct ContentView: View {
                         TextField("Persistent note", text: $note, axis: .vertical)
                             .textFieldStyle(.roundedBorder)
                             .lineLimit(4, reservesSpace: true)
+                            .disabled(true)
 
                         Toggle("Keep rebuild loop visible", isOn: $keepLoopVisible)
 

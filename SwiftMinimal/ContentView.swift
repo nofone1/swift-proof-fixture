@@ -4,11 +4,24 @@ struct ContentView: View {
     private enum Screen {
         case home
         case details
+        case checkout
     }
 
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
     @State private var screen: Screen = .home
+    @State private var orderConfirmed = false
+
+    private var screenTitle: String {
+        switch screen {
+        case .home:
+            "Swift Proof Fixture"
+        case .details:
+            "Details"
+        case .checkout:
+            "Checkout"
+        }
+    }
 
     var body: some View {
         ScrollView {
@@ -18,7 +31,7 @@ struct ContentView: View {
                     .textCase(.uppercase)
                     .foregroundStyle(Color(red: 0.43, green: 0.35, blue: 0.22))
 
-                Text(screen == .home ? "Swift Proof Fixture" : "Details")
+                Text(screenTitle)
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 
                 Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
@@ -54,8 +67,13 @@ struct ContentView: View {
                             screen = .details
                         }
                         .buttonStyle(.borderedProminent)
+
+                        Button("Review order") {
+                            screen = .checkout
+                        }
+                        .buttonStyle(.bordered)
                     }
-                } else {
+                } else if screen == .details {
                     infoCard {
                         Text("Details")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
@@ -66,6 +84,34 @@ struct ContentView: View {
                         detailRow(label: "Saved note", value: note)
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
+
+                        Button("Back home") {
+                            screen = .home
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                } else {
+                    infoCard {
+                        Text("Express checkout")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+
+                        Text("Place the order and confirm that checkout completes.")
+                            .foregroundStyle(.secondary)
+
+                        detailRow(label: "Product", value: "Proof fixture")
+                        detailRow(label: "Total", value: "$12.00")
+
+                        if orderConfirmed {
+                            Text("Order confirmed")
+                                .font(.system(size: 18, weight: .bold, design: .rounded))
+                                .foregroundStyle(.green)
+                        } else {
+                            Button("Place order") {
+                                orderConfirmed = false
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .accessibilityIdentifier("place-order-button")
+                        }
 
                         Button("Back home") {
                             screen = .home

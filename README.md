@@ -24,6 +24,23 @@ gh pr create --title "Proof: visible UI marker v1" --body "Exercises proof-of-ch
 
 Or edit the home title / build marker in `SwiftMinimal/ContentView.swift` by hand.
 
+## Dogfood the Atlas annotation lifecycle
+
+Use one pull request and two pushes to exercise the complete finding lifecycle:
+
+1. Add a visible user task with an explicit expected result, then deliberately
+   leave that result broken. State the expected behavior in the pull request.
+2. On the broken push, require Proof of Changes to reproduce the failure, add
+   one screenshot-grounded finding, assign an evidence-based confidence score,
+   and link the finding into Atlas.
+3. Fix the same task in a second push. The proof agent should list the earlier
+   finding, resolve or reply to that thread instead of duplicating it, and leave
+   the pull-request comment linked to the newly exercised build in Atlas.
+
+The checkout fixture in `SwiftMinimal/ContentView.swift` is designed for this:
+`Place order` should reveal `Order confirmed`, and the broken/fixed transition
+is the single assignment to `orderConfirmed` inside the button action.
+
 ## Local build (optional)
 
 ```bash

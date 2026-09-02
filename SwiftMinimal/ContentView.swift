@@ -95,7 +95,7 @@ struct ContentView: View {
                         Text("Express checkout")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
 
-                        Text("Place the order and verify that checkout completes.")
+                        Text("Place the order and check that checkout completes.")
                             .foregroundStyle(.secondary)
 
                         detailRow(label: "Product", value: "Proof fixture")

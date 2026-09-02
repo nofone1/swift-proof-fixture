@@ -107,7 +107,7 @@ struct ContentView: View {
                                 .foregroundStyle(.green)
                         } else {
                             Button("Place order") {
-                                orderConfirmed = false
+                                orderConfirmed = true
                             }
                             .buttonStyle(.borderedProminent)
                             .accessibilityIdentifier("place-order-button")

@@ -15,11 +15,11 @@ struct ContentView: View {
     private var screenTitle: String {
         switch screen {
         case .home:
-            "Swift Proof Fixture"
+            return "Swift Proof Fixture"
         case .details:
-            "Details"
+            return "Details"
         case .checkout:
-            "Checkout"
+            return "Checkout"
         }
     }
 

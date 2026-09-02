@@ -100,7 +100,7 @@ struct ContentView: View {
 
                         Text("Priority delivery is included")
                             .font(.system(size: 15, weight: .semibold, design: .rounded))
-                            .foregroundStyle(Color.white.opacity(0.18))
+                            .foregroundStyle(.white)
                             .padding(.horizontal, 14)
                             .padding(.vertical, 10)
                             .frame(maxWidth: .infinity, alignment: .leading)

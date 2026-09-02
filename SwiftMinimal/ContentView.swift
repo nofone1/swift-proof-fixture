@@ -4,11 +4,24 @@ struct ContentView: View {
     private enum Screen {
         case home
         case details
+        case checkout
     }
 
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
     @State private var screen: Screen = .home
+    @State private var orderConfirmed = false
+
+    private var screenTitle: String {
+        switch screen {
+        case .home:
+            return "swift-minimal"
+        case .details:
+            return "Details"
+        case .checkout:
+            return "Checkout"
+        }
+    }
 
     var body: some View {
         ScrollView {
@@ -18,7 +31,7 @@ struct ContentView: View {
                     .textCase(.uppercase)
                     .foregroundStyle(Color(red: 0.43, green: 0.35, blue: 0.22))
 
-                Text(screen == .home ? "swift-minimal" : "Details")
+                Text(screenTitle)
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 
                 Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
@@ -54,8 +67,13 @@ struct ContentView: View {
                             screen = .details
                         }
                         .buttonStyle(.borderedProminent)
+
+                        Button("Review order") {
+                            screen = .checkout
+                        }
+                        .buttonStyle(.bordered)
                     }
-                } else {
+                } else if screen == .details {
                     infoCard {
                         Text("Details")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
@@ -66,6 +84,43 @@ struct ContentView: View {
                         detailRow(label: "Saved note", value: note)
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
+
+                        Button("Back home") {
+                            screen = .home
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                } else {
+                    infoCard {
+                        Text("Express checkout")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+
+                        Text("Place the order and confirm priority delivery.")
+                            .foregroundStyle(.secondary)
+
+                        Text("Priority delivery is included")
+                            .font(.system(size: 15, weight: .semibold, design: .rounded))
+                            .foregroundStyle(Color.white.opacity(0.18))
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 10)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(Color.blue)
+                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+
+                        detailRow(label: "Product", value: "Proof fixture")
+                        detailRow(label: "Total", value: "$12.00")
+
+                        if orderConfirmed {
+                            Text("Order confirmed")
+                                .font(.system(size: 18, weight: .bold, design: .rounded))
+                                .foregroundStyle(.green)
+                        } else {
+                            Button("Place order") {
+                                orderConfirmed = true
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .accessibilityIdentifier("place-order-button")
+                        }
 
                         Button("Back home") {
                             screen = .home

@@ -4,11 +4,28 @@ struct ContentView: View {
     private enum Screen {
         case home
         case details
+        case preferences
     }
 
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
+    @AppStorage("swift_minimal_daily_summary") private var dailySummaryEnabled = false
+    @AppStorage("swift_minimal_reminder_hour") private var reminderHour = 9
     @State private var screen: Screen = .home
+    @State private var draftDailySummaryEnabled = false
+    @State private var draftReminderHour = 9
+    @State private var preferencesSaved = false
+
+    private var screenTitle: String {
+        switch screen {
+        case .home:
+            return "swift-minimal"
+        case .details:
+            return "Details"
+        case .preferences:
+            return "Preferences"
+        }
+    }
 
     var body: some View {
         ScrollView {
@@ -18,7 +35,7 @@ struct ContentView: View {
                     .textCase(.uppercase)
                     .foregroundStyle(Color(red: 0.43, green: 0.35, blue: 0.22))
 
-                Text(screen == .home ? "swift-minimal" : "Details")
+                Text(screenTitle)
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 
                 Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
@@ -37,7 +54,7 @@ struct ContentView: View {
                         Text("Home")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
 
-                        Text("Edit the, flip the persisted toggle, then relaunch the simulator to confirm UserDefaults kept everything.")
+                        Text("Edit the note, flip the persisted toggle, then relaunch the simulator to confirm UserDefaults kept everything.")
                             .foregroundStyle(.secondary)
 
                         TextField("Persistent note", text: $note, axis: .vertical)
@@ -54,8 +71,16 @@ struct ContentView: View {
                             screen = .details
                         }
                         .buttonStyle(.borderedProminent)
+
+                        Button("Notification preferences") {
+                            draftDailySummaryEnabled = dailySummaryEnabled
+                            draftReminderHour = reminderHour
+                            preferencesSaved = false
+                            screen = .preferences
+                        }
+                        .buttonStyle(.bordered)
                     }
-                } else {
+                } else if screen == .details {
                     infoCard {
                         Text("Details")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
@@ -65,7 +90,44 @@ struct ContentView: View {
 
                         detailRow(label: "Saved note", value: note)
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
+                        detailRow(label: "Daily summary", value: dailySummaryEnabled ? "Enabled" : "Disabled")
+                        detailRow(label: "Reminder time", value: "\(reminderHour):00")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
+
+                        Button("Back home") {
+                            screen = .home
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                } else {
+                    infoCard {
+                        Text("Notifications")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+
+                        Text("Choose when the fixture should summarize completed rebuilds.")
+                            .foregroundStyle(.secondary)
+
+                        Toggle("Send a daily summary", isOn: $draftDailySummaryEnabled)
+
+                        Picker("Reminder time", selection: $draftReminderHour) {
+                            Text("9 AM").tag(9)
+                            Text("1 PM").tag(13)
+                            Text("5 PM").tag(17)
+                        }
+                        .pickerStyle(.segmented)
+
+                        Button("Save preferences") {
+                            dailySummaryEnabled = draftDailySummaryEnabled
+                            preferencesSaved = true
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .accessibilityIdentifier("save-preferences-button")
+
+                        if preferencesSaved {
+                            Text("Preferences saved for \(draftReminderHour):00")
+                                .font(.system(size: 14, weight: .semibold, design: .rounded))
+                                .foregroundStyle(Color(red: 0.17, green: 0.37, blue: 0.34))
+                        }
 
                         Button("Back home") {
                             screen = .home

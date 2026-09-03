@@ -37,8 +37,27 @@ struct ContentView: View {
                         Text("Home")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
 
-                        Text("Edit the, flip the persisted toggle, then relaunch the simulator to confirm UserDefaults kept everything.")
+                        Text("Edit the note, flip the persisted toggle, then relaunch the simulator to confirm UserDefaults kept everything.")
                             .foregroundStyle(.secondary)
+
+                        HStack(spacing: 10) {
+                            Circle()
+                                .fill(Color.green)
+                                .frame(width: 10, height: 10)
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Simulator sync")
+                                    .font(.system(size: 15, weight: .bold, design: .rounded))
+
+                                Text("Connected and ready for the next rebuild")
+                                    .font(.system(size: 13, weight: .semibold, design: .rounded))
+                            }
+                        }
+                        .foregroundStyle(Color.white.opacity(0.16))
+                        .padding(14)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color.indigo)
+                        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
 
                         TextField("Persistent note", text: $note, axis: .vertical)
                             .textFieldStyle(.roundedBorder)

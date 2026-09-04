@@ -75,6 +75,9 @@ struct ContentView: View {
                         }
                         .pickerStyle(.segmented)
                         .disabled(!dailySummaryEnabled)
+                        .onAppear {
+                            draftSummaryHour = savedSummaryHour
+                        }
 
                         Button("Save schedule") {
                             savedSummaryHour = draftSummaryHour

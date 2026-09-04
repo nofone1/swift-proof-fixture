@@ -4,10 +4,14 @@ struct ContentView: View {
     private enum Screen {
         case home
         case details
+        case checkout
     }
 
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
+    @State private var quantity = 1
+    @State private var priorityDelivery = false
+    @State private var orderStatus: String?
     @State private var screen: Screen = .home
 
     var body: some View {
@@ -18,7 +22,7 @@ struct ContentView: View {
                     .textCase(.uppercase)
                     .foregroundStyle(Color(red: 0.43, green: 0.35, blue: 0.22))
 
-                Text(screen == .home ? "swift-minimal" : "Details")
+                Text(screenTitle)
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 
                 Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
@@ -54,8 +58,13 @@ struct ContentView: View {
                             screen = .details
                         }
                         .buttonStyle(.borderedProminent)
+
+                        Button("Open express checkout") {
+                            screen = .checkout
+                        }
+                        .buttonStyle(.bordered)
                     }
-                } else {
+                } else if screen == .details {
                     infoCard {
                         Text("Details")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
@@ -66,6 +75,40 @@ struct ContentView: View {
                         detailRow(label: "Saved note", value: note)
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
+
+                        Button("Back home") {
+                            screen = .home
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                } else {
+                    infoCard {
+                        Text("Express checkout")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+
+                        Text("Review your sample order before placing it.")
+                            .foregroundStyle(.secondary)
+
+                        detailRow(label: "Item", value: "Fixture support plan")
+                        detailRow(label: "Unit price", value: "$12.00")
+
+                        Stepper("Quantity: \(quantity)", value: $quantity, in: 1...4)
+
+                        Toggle("Priority delivery (+$4.00)", isOn: $priorityDelivery)
+
+                        Divider()
+                        detailRow(label: "Order total", value: "$12.00")
+
+                        Button("Place order") {
+                            orderStatus = "Order placed successfully"
+                        }
+                        .buttonStyle(.borderedProminent)
+
+                        if let orderStatus {
+                            Text(orderStatus)
+                                .font(.system(size: 14, weight: .semibold, design: .rounded))
+                                .foregroundStyle(Color(red: 0.17, green: 0.37, blue: 0.34))
+                        }
 
                         Button("Back home") {
                             screen = .home
@@ -104,6 +147,17 @@ struct ContentView: View {
             Text(value)
                 .font(.system(size: 16, weight: .regular, design: .rounded))
                 .foregroundStyle(.primary)
+        }
+    }
+
+    private var screenTitle: String {
+        switch screen {
+        case .home:
+            return "swift-minimal"
+        case .details:
+            return "Details"
+        case .checkout:
+            return "Checkout"
         }
     }
 }

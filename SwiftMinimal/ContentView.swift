@@ -4,11 +4,25 @@ struct ContentView: View {
     private enum Screen {
         case home
         case details
+        case checkout
     }
 
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
     @State private var screen: Screen = .home
+    @State private var quantity = 1
+    @State private var orderStatus = "Not submitted"
+
+    private var screenTitle: String {
+        switch screen {
+        case .home:
+            return "swift-minimal"
+        case .details:
+            return "Details"
+        case .checkout:
+            return "Checkout"
+        }
+    }
 
     var body: some View {
         ScrollView {
@@ -18,7 +32,7 @@ struct ContentView: View {
                     .textCase(.uppercase)
                     .foregroundStyle(Color(red: 0.43, green: 0.35, blue: 0.22))
 
-                Text(screen == .home ? "swift-minimal" : "Details")
+                Text(screenTitle)
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 
                 Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
@@ -54,8 +68,13 @@ struct ContentView: View {
                             screen = .details
                         }
                         .buttonStyle(.borderedProminent)
+
+                        Button("Review order") {
+                            screen = .checkout
+                        }
+                        .buttonStyle(.bordered)
                     }
-                } else {
+                } else if screen == .details {
                     infoCard {
                         Text("Details")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
@@ -66,6 +85,24 @@ struct ContentView: View {
                         detailRow(label: "Saved note", value: note)
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
+
+                        Button("Back home") {
+                            screen = .home
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                } else {
+                    infoCard {
+                        Text("Workspace seats")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+
+                        Stepper("Quantity: \(quantity)", value: $quantity, in: 1...5)
+                        detailRow(label: "Total", value: "$12.00")
+                        detailRow(label: "Order status", value: orderStatus)
+
+                        Button("Place order") {
+                        }
+                        .buttonStyle(.borderedProminent)
 
                         Button("Back home") {
                             screen = .home

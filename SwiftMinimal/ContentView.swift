@@ -79,6 +79,7 @@ struct ContentView: View {
                             releaseStatus = "Internal beta launched"
                         }
                         .buttonStyle(.borderedProminent)
+                        .disabled(!(buildApproved && testsApproved && releaseNotesApproved))
                     }
                 } else {
                     infoCard {

@@ -8,6 +8,10 @@ struct ContentView: View {
 
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
+    @State private var buildApproved = false
+    @State private var testsApproved = false
+    @State private var releaseNotesApproved = false
+    @State private var releaseStatus = "Waiting for required checks"
     @State private var screen: Screen = .home
 
     var body: some View {
@@ -52,6 +56,27 @@ struct ContentView: View {
 
                         Button("Open details") {
                             screen = .details
+                        }
+                        .buttonStyle(.borderedProminent)
+                    }
+
+                    infoCard {
+                        Text("Release readiness")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+
+                        Text("Complete every required check before launching the internal beta.")
+                            .foregroundStyle(.secondary)
+
+                        Toggle("Build approved", isOn: $buildApproved)
+                        Toggle("Tests passed", isOn: $testsApproved)
+                        Toggle("Release notes reviewed", isOn: $releaseNotesApproved)
+
+                        Text(releaseStatus)
+                            .font(.system(size: 14, weight: .semibold, design: .rounded))
+                            .foregroundStyle(.secondary)
+
+                        Button("Launch internal beta") {
+                            releaseStatus = "Internal beta launched"
                         }
                         .buttonStyle(.borderedProminent)
                     }

@@ -76,7 +76,7 @@ struct ContentView: View {
                 Divider()
 
                 detailRow(label: "Checklist", value: "\(completedItems.count) of \(checklistItems.count) complete")
-                detailRow(label: "Customer summary", value: "Today at 9:00 AM")
+                detailRow(label: "Customer summary", value: "Today at \(selectedSummaryTime)")
             }
 
             HStack(spacing: 12) {
@@ -92,6 +92,7 @@ struct ContentView: View {
                     .foregroundStyle(.secondary)
 
                 Button("Approve release") {
+                    isApproved = true
                 }
                 .buttonStyle(.borderedProminent)
             }
@@ -149,7 +150,7 @@ struct ContentView: View {
                 }
                 .pickerStyle(.segmented)
 
-                Text("Scheduled for today at 9:00 AM")
+                Text("Scheduled for today at \(selectedSummaryTime)")
                     .font(.system(size: 16, weight: .semibold, design: .rounded))
             }
 

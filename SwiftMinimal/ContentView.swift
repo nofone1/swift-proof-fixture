@@ -26,6 +26,27 @@ struct ContentView: View {
                     .foregroundStyle(.secondary)
 
                 infoCard {
+                    Text("Annotation grounding lab")
+                        .font(.system(size: 22, weight: .bold, design: .rounded))
+
+                    Text("Use this card to verify that review findings attach only to a clearly identified visible element.")
+                        .foregroundStyle(.secondary)
+
+                    Button("Run diagnostics") {}
+                        .buttonStyle(.borderedProminent)
+
+                    HStack {
+                        Button("Retry") {}
+                            .buttonStyle(.bordered)
+                        Button("Retry") {}
+                            .buttonStyle(.bordered)
+                    }
+
+                    Text("Destructive reset is permanent.")
+                        .foregroundStyle(Color.white.opacity(0.18))
+                }
+
+                infoCard {
                     detailRow(label: "Sample", value: "swift-minimal")
                     detailRow(label: "Build system", value: "Xcode")
                     detailRow(label: "Platform", value: "iOS Simulator")

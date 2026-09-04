@@ -65,7 +65,7 @@ struct ContentView: View {
 
                         Text("Sync paused — changes may be lost")
                             .font(.system(size: 15, weight: .semibold, design: .rounded))
-                            .foregroundStyle(Color.white.opacity(0.10))
+                            .foregroundStyle(Color.white)
                             .padding(.horizontal, 14)
                             .padding(.vertical, 10)
                             .frame(maxWidth: .infinity, alignment: .leading)

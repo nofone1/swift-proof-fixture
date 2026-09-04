@@ -101,6 +101,7 @@ struct ContentView: View {
                         detailRow(label: "Order status", value: orderStatus)
 
                         Button("Place order") {
+                            orderStatus = "Submitted \(quantity) seats"
                         }
                         .buttonStyle(.borderedProminent)
 

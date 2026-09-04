@@ -40,11 +40,11 @@ struct ContentView: View {
                             .foregroundStyle(.white)
 
                         Text("Your latest local state is available across rebuilds.")
-                            .foregroundStyle(Color.white.opacity(0.14))
+                            .foregroundStyle(Color.white.opacity(0.82))
 
                         Text(syncMessage)
                             .font(.system(size: 14, weight: .semibold, design: .rounded))
-                            .foregroundStyle(Color.white.opacity(0.14))
+                            .foregroundStyle(.white)
 
                         Button("Sync again") {
                             syncMessage = "Sync completed"

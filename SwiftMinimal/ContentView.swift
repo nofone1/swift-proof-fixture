@@ -18,6 +18,8 @@ struct ContentView: View {
                     .textCase(.uppercase)
                     .foregroundStyle(Color(red: 0.43, green: 0.35, blue: 0.22))
 
+                Text("Intentional dogfood build failure"
+
                 Text(screen == .home ? "swift-minimal" : "Details")
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 

@@ -46,6 +46,11 @@ struct ContentView: View {
 
                         Toggle("Keep rebuild loop visible", isOn: $keepLoopVisible)
 
+                        Button("Reset saved state") {
+                            keepLoopVisible = true
+                        }
+                        .buttonStyle(.bordered)
+
                         Text("Relaunch-proof check: saved locally in UserDefaults.")
                             .font(.system(size: 14, weight: .semibold, design: .rounded))
                             .foregroundStyle(Color(red: 0.17, green: 0.37, blue: 0.34))

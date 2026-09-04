@@ -8,6 +8,7 @@ struct ContentView: View {
 
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
+    @State private var syncMessage = "Last synced just now"
     @State private var screen: Screen = .home
 
     var body: some View {
@@ -33,6 +34,30 @@ struct ContentView: View {
                 }
 
                 if screen == .home {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Simulator sync")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+                            .foregroundStyle(.white)
+
+                        Text("Your latest local state is available across rebuilds.")
+                            .foregroundStyle(Color.white.opacity(0.14))
+
+                        Text(syncMessage)
+                            .font(.system(size: 14, weight: .semibold, design: .rounded))
+                            .foregroundStyle(Color.white.opacity(0.14))
+
+                        Button("Sync again") {
+                            syncMessage = "Sync completed"
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.white)
+                        .foregroundStyle(.indigo)
+                    }
+                    .padding(18)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(.indigo)
+                    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+
                     infoCard {
                         Text("Home")
                             .font(.system(size: 22, weight: .bold, design: .rounded))

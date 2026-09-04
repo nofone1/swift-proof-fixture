@@ -4,11 +4,25 @@ struct ContentView: View {
     private enum Screen {
         case home
         case details
+        case readiness
     }
 
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
     @State private var screen: Screen = .home
+    @State private var allChecksComplete = false
+    @State private var releaseLaunched = false
+
+    private var screenTitle: String {
+        switch screen {
+        case .home:
+            return "swift-minimal"
+        case .details:
+            return "Details"
+        case .readiness:
+            return "Release"
+        }
+    }
 
     var body: some View {
         ScrollView {
@@ -18,7 +32,7 @@ struct ContentView: View {
                     .textCase(.uppercase)
                     .foregroundStyle(Color(red: 0.43, green: 0.35, blue: 0.22))
 
-                Text(screen == .home ? "swift-minimal" : "Details")
+                Text(screenTitle)
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 
                 Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
@@ -54,8 +68,13 @@ struct ContentView: View {
                             screen = .details
                         }
                         .buttonStyle(.borderedProminent)
+
+                        Button("Review release readiness") {
+                            screen = .readiness
+                        }
+                        .buttonStyle(.bordered)
                     }
-                } else {
+                } else if screen == .details {
                     infoCard {
                         Text("Details")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
@@ -66,6 +85,41 @@ struct ContentView: View {
                         detailRow(label: "Saved note", value: note)
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
+
+                        Button("Back home") {
+                            screen = .home
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                } else {
+                    infoCard {
+                        Text("Release readiness")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+
+                        Text("Complete every gate before launching this build.")
+                            .foregroundStyle(.secondary)
+
+                        detailRow(label: "Automated checks", value: "2 of 3 passed")
+                        detailRow(label: "Manual approval", value: allChecksComplete ? "Approved" : "Pending")
+
+                        Toggle("Manual approval complete", isOn: $allChecksComplete)
+
+                        if !allChecksComplete {
+                            Button("Review blocked items") {
+                            }
+                            .buttonStyle(.bordered)
+                        }
+
+                        Button("Launch release") {
+                            releaseLaunched = true
+                        }
+                        .buttonStyle(.borderedProminent)
+
+                        if releaseLaunched {
+                            Text("Release launched")
+                                .font(.system(size: 16, weight: .bold, design: .rounded))
+                                .foregroundStyle(.green)
+                        }
 
                         Button("Back home") {
                             screen = .home

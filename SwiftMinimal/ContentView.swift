@@ -8,6 +8,9 @@ struct ContentView: View {
 
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
+    @AppStorage("swift_minimal_daily_summary") private var dailySummaryEnabled = true
+    @AppStorage("swift_minimal_summary_hour") private var savedSummaryHour = 9
+    @State private var draftSummaryHour = 9
     @State private var screen: Screen = .home
 
     var body: some View {
@@ -54,6 +57,34 @@ struct ContentView: View {
                             screen = .details
                         }
                         .buttonStyle(.borderedProminent)
+                    }
+
+                    infoCard {
+                        Text("Notification summary")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+
+                        Text("Choose when the daily rebuild summary should arrive.")
+                            .foregroundStyle(.secondary)
+
+                        Toggle("Daily summary", isOn: $dailySummaryEnabled)
+
+                        Picker("Delivery time", selection: $draftSummaryHour) {
+                            Text("9:00 AM").tag(9)
+                            Text("1:00 PM").tag(13)
+                            Text("5:00 PM").tag(17)
+                        }
+                        .pickerStyle(.segmented)
+                        .disabled(!dailySummaryEnabled)
+
+                        Button("Save schedule") {
+                            savedSummaryHour = 9
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .disabled(!dailySummaryEnabled)
+
+                        Text("Saved delivery: \(formattedHour(savedSummaryHour))")
+                            .font(.system(size: 14, weight: .semibold, design: .rounded))
+                            .foregroundStyle(.secondary)
                     }
                 } else {
                     infoCard {
@@ -104,6 +135,17 @@ struct ContentView: View {
             Text(value)
                 .font(.system(size: 16, weight: .regular, design: .rounded))
                 .foregroundStyle(.primary)
+        }
+    }
+
+    private func formattedHour(_ hour: Int) -> String {
+        switch hour {
+        case 13:
+            return "1:00 PM"
+        case 17:
+            return "5:00 PM"
+        default:
+            return "9:00 AM"
         }
     }
 }

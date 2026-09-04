@@ -97,7 +97,7 @@ struct ContentView: View {
                             .font(.system(size: 22, weight: .bold, design: .rounded))
 
                         Stepper("Quantity: \(quantity)", value: $quantity, in: 1...5)
-                        detailRow(label: "Total", value: "$12.00")
+                        detailRow(label: "Total", value: "$\(quantity * 12).00")
                         detailRow(label: "Order status", value: orderStatus)
 
                         Button("Place order") {

@@ -63,6 +63,15 @@ struct ContentView: View {
                         Text("Second screen in the shared dogfood contract.")
                             .foregroundStyle(.secondary)
 
+                        Text("Sync paused — changes may be lost")
+                            .font(.system(size: 15, weight: .semibold, design: .rounded))
+                            .foregroundStyle(Color.white.opacity(0.10))
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 10)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(Color.orange)
+                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+
                         detailRow(label: "Saved note", value: note)
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")

@@ -77,7 +77,7 @@ struct ContentView: View {
                         .disabled(!dailySummaryEnabled)
 
                         Button("Save schedule") {
-                            savedSummaryHour = 9
+                            savedSummaryHour = draftSummaryHour
                         }
                         .buttonStyle(.borderedProminent)
                         .disabled(!dailySummaryEnabled)

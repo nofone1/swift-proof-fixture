@@ -96,7 +96,7 @@ struct ContentView: View {
                         Text("Release readiness")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
 
-                        Text("Complete every release gate before launching this build.")
+                        Text("Review every release gate before launching this build.")
                             .foregroundStyle(.secondary)
 
                         detailRow(label: "Automated checks", value: "2 of 3 passed")

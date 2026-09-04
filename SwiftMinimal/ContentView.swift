@@ -97,7 +97,10 @@ struct ContentView: View {
                         Toggle("Priority delivery (+$4.00)", isOn: $priorityDelivery)
 
                         Divider()
-                        detailRow(label: "Order total", value: "$12.00")
+                        detailRow(
+                            label: "Order total",
+                            value: "$\(quantity * 12 + (priorityDelivery ? 4 : 0)).00"
+                        )
 
                         Button("Place order") {
                             orderStatus = "Order placed successfully"

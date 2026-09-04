@@ -43,7 +43,7 @@ struct ContentView: View {
                     }
 
                     Text("Destructive reset is permanent.")
-                        .foregroundStyle(Color.white.opacity(0.18))
+                        .foregroundStyle(.red)
                 }
 
                 infoCard {

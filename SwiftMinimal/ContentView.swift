@@ -51,7 +51,6 @@ struct ContentView: View {
                             .foregroundStyle(Color(red: 0.17, green: 0.37, blue: 0.34))
 
                         Button("Open details") {
-                            screen = .details
                         }
                         .buttonStyle(.borderedProminent)
                     }

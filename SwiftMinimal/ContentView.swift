@@ -18,7 +18,7 @@ struct ContentView: View {
                     .textCase(.uppercase)
                     .foregroundStyle(Color(red: 0.43, green: 0.35, blue: 0.22))
 
-                Text(screen == .home ? "swift-minimal" : "Details")
+                Text(screen == .home ? "swift-minimal · sao-paulo" : "Details")
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 
                 Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
@@ -29,7 +29,7 @@ struct ContentView: View {
                     detailRow(label: "Sample", value: "swift-minimal")
                     detailRow(label: "Build system", value: "Xcode")
                     detailRow(label: "Platform", value: "iOS Simulator")
-                    detailRow(label: "Build marker", value: "swift-minimal@1.0")
+                    detailRow(label: "Build marker", value: "swift-minimal@sao-paulo")
                 }
 
                 if screen == .home {

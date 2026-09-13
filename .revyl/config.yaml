@@ -27,6 +27,6 @@ pr_review:
     proof_of_changes:
         enabled: true
         harness:
-            kind: revyl
+            kind: cursor
     strict_ci_check:
         build: true

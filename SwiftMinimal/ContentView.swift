@@ -29,7 +29,7 @@ struct ContentView: View {
                     detailRow(label: "Sample", value: "swift-minimal")
                     detailRow(label: "Build system", value: "Xcode")
                     detailRow(label: "Platform", value: "iOS Simulator")
-                    detailRow(label: "Build marker", value: "scm-queue-two-C")
+                    detailRow(label: "Build marker", value: "scm-queue-two-C-retry")
                 }
 
                 if screen == .home {

@@ -15,6 +15,7 @@ build:
             ios:
                 app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
                 build_commands:
+                    - test ! -e ignored-for-revyl-test/sentinel.txt
                     - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
                 output_path: build/Build/Products/Debug-iphonesimulator/*.app
 pr_review:
@@ -22,8 +23,9 @@ pr_review:
     review_triggers:
         drafts: false
     build:
-        kind: revyl
-        profile: pr-review
+        kind: ci_upload_to_revyl
+        app_ids:
+            ios: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
     proof_of_changes:
         enabled: true
         harness:

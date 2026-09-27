@@ -39,7 +39,7 @@ struct ContentView: View {
                             .font(.system(size: 22, weight: .bold, design: .rounded))
 
                         detailRow(label: "Plan", value: "Annual member")
-                        detailRow(label: "Renews", value: "Next year")
+                        detailRow(label: "Renews", value: "In twelve months")
                     }
                 }
 

@@ -21,7 +21,7 @@ struct ContentView: View {
                 Text(screen == .home ? "swift-minimal" : "Details")
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 
-                Text("Build marker: COG-931 E2E v1")
+                Text("Build marker: COG-931 E2E v2")
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
 
                 Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")

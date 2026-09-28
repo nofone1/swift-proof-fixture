@@ -9,6 +9,7 @@ struct ContentView: View {
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
     @State private var screen: Screen = .home
+    @FocusState private var noteFieldFocused: Bool
 
     var body: some View {
         ScrollView {
@@ -43,6 +44,7 @@ struct ContentView: View {
                         TextField("Persistent note", text: $note, axis: .vertical)
                             .textFieldStyle(.roundedBorder)
                             .lineLimit(4, reservesSpace: true)
+                            .focused($noteFieldFocused)
 
                         Toggle("Keep rebuild loop visible", isOn: $keepLoopVisible)
 
@@ -75,6 +77,15 @@ struct ContentView: View {
                 }
             }
             .padding(24)
+        }
+        .scrollDismissesKeyboard(.interactively)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") {
+                    noteFieldFocused = false
+                }
+            }
         }
         .background(Color(red: 0.96, green: 0.94, blue: 0.90))
     }

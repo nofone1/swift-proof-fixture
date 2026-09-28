@@ -6,7 +6,7 @@ struct ContentView: View {
         case details
     }
 
-    @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
+    @State private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
     @State private var screen: Screen = .home
 

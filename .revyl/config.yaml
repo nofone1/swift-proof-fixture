@@ -7,13 +7,13 @@ build:
     profiles:
         development:
             ios:
-                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
+                app_id: 34751804-25e0-49c3-94f1-14ed5f26758a
                 build_commands:
                     - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
                 output_path: build/Build/Products/Debug-iphonesimulator/*.app
         pr-review:
             ios:
-                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
+                app_id: 34751804-25e0-49c3-94f1-14ed5f26758a
                 build_commands:
                     - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
                 output_path: build/Build/Products/Debug-iphonesimulator/*.app

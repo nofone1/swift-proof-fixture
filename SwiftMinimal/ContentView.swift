@@ -13,7 +13,7 @@ struct ContentView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                Text("Xcode / SwiftUI")
+                Text("Xcode / SwiftUI (COG-1172 B)")
                     .font(.system(size: 12, weight: .bold, design: .rounded))
                     .textCase(.uppercase)
                     .foregroundStyle(Color(red: 0.43, green: 0.35, blue: 0.22))

@@ -5,6 +5,11 @@ session:
 build:
     framework: ios
     profiles:
+        dev-sim:
+            ios:
+                build_commands:
+                    - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+                output_path: build/Build/Products/Debug-iphonesimulator/*.app
         development:
             ios:
                 app_id: 3961012d-6f04-4bc2-8344-40c82d304f8a

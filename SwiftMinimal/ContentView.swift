@@ -8,6 +8,7 @@ struct ContentView: View {
 
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
+    @AppStorage("swift_minimal_member_signed_in") private var memberSignedIn = false
     @State private var screen: Screen = .home
 
     var body: some View {
@@ -30,6 +31,22 @@ struct ContentView: View {
                     detailRow(label: "Build system", value: "Xcode")
                     detailRow(label: "Platform", value: "iOS Simulator")
                     detailRow(label: "Build marker", value: "revup/cog4233-revyl")
+                }
+
+                if screen == .home {
+                    infoCard {
+                        if memberSignedIn {
+                            Text("Your membership")
+                                .font(.system(size: 22, weight: .bold, design: .rounded))
+
+                            detailRow(label: "Plan", value: "Annual member")
+                            detailRow(label: "Renews", value: "Next year")
+                        } else {
+                            Text("Sign in to see your membership")
+                                .font(.system(size: 18, weight: .semibold, design: .rounded))
+                                .foregroundStyle(.secondary)
+                        }
+                    }
                 }
 
                 if screen == .home {

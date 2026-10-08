@@ -1,0 +1,1 @@
+Customer-owned fixture file: must survive proof setup byte for byte.

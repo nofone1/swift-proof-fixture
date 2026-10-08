@@ -30,22 +30,16 @@ struct ContentView: View {
                     detailRow(label: "Sample", value: "swift-minimal")
                     detailRow(label: "Build system", value: "Xcode")
                     detailRow(label: "Platform", value: "iOS Simulator")
-                    detailRow(label: "Build marker", value: "revup/cog4233-revyl")
+                    detailRow(label: "Build marker", value: "swift-minimal@1.0")
                 }
 
-                if screen == .home {
+                if screen == .home && memberSignedIn {
                     infoCard {
-                        if memberSignedIn {
-                            Text("Your membership")
-                                .font(.system(size: 22, weight: .bold, design: .rounded))
+                        Text("Your membership")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
 
-                            detailRow(label: "Plan", value: "Annual member")
-                            detailRow(label: "Renews", value: "Next year")
-                        } else {
-                            Text("Sign in to see your membership")
-                                .font(.system(size: 18, weight: .semibold, design: .rounded))
-                                .foregroundStyle(.secondary)
-                        }
+                        detailRow(label: "Plan", value: "Annual member")
+                        detailRow(label: "Renews", value: "Next year")
                     }
                 }
 

@@ -29,7 +29,7 @@ struct ContentView: View {
                     detailRow(label: "Sample", value: "swift-minimal")
                     detailRow(label: "Build system", value: "Xcode")
                     detailRow(label: "Platform", value: "iOS Simulator")
-                    detailRow(label: "Build marker", value: "swift-minimal@diff-2")
+                    detailRow(label: "Build marker", value: "swift-minimal@full-diff")
                 }
 
                 if screen == .home {
@@ -37,7 +37,7 @@ struct ContentView: View {
                         Text("Home")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
 
-                        Text("Edit the, flip the persisted toggle, then relaunch the simulator to confirm UserDefaults kept everything.")
+                        Text("Edit the note, flip the persisted toggle, then relaunch the simulator to confirm UserDefaults kept everything.")
                             .foregroundStyle(.secondary)
 
                         TextField("Persistent note", text: $note, axis: .vertical)

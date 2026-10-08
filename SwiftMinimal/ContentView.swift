@@ -29,7 +29,7 @@ struct ContentView: View {
                     detailRow(label: "Sample", value: "swift-minimal")
                     detailRow(label: "Build system", value: "Xcode")
                     detailRow(label: "Platform", value: "iOS Simulator")
-                    detailRow(label: "Build marker", value: "swift-minimal@1.0")
+                    detailRow(label: "Build marker", value: "swift-minimal@safe-diff")
                 }
 
                 if screen == .home {
@@ -37,7 +37,7 @@ struct ContentView: View {
                         Text("Home")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
 
-                        Text("Edit the, flip the persisted toggle, then relaunch the simulator to confirm UserDefaults kept everything.")
+                        Text("Edit the note, flip the persisted toggle, then relaunch the simulator to confirm UserDefaults kept everything.")
                             .foregroundStyle(.secondary)
 
                         TextField("Persistent note", text: $note, axis: .vertical)
@@ -60,14 +60,14 @@ struct ContentView: View {
                         Text("Details")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
 
-                        Text("Second screen in the shared dogfood contract.")
+                        Text("Second screen, now with a clearer way back.")
                             .foregroundStyle(.secondary)
 
                         detailRow(label: "Saved note", value: note)
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
 
-                        Button("Back home") {
+                        Button("Return home") {
                             screen = .home
                         }
                         .buttonStyle(.bordered)

@@ -7,13 +7,13 @@ build:
     profiles:
         development:
             ios:
-                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
+                app_id: 0653e0de-301a-43a7-bb90-5bc1e6a3183e
                 build_commands:
                     - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
                 output_path: build/Build/Products/Debug-iphonesimulator/*.app
         pr-review:
             ios:
-                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
+                app_id: 0653e0de-301a-43a7-bb90-5bc1e6a3183e
                 build_commands:
                     - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
                 output_path: build/Build/Products/Debug-iphonesimulator/*.app
@@ -27,6 +27,6 @@ pr_review:
     proof_of_changes:
         enabled: true
         harness:
-            kind: revyl
+            kind: cursor
     strict_ci_check:
         build: true

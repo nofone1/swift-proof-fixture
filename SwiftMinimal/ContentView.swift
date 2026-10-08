@@ -60,14 +60,14 @@ struct ContentView: View {
                         Text("Details")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
 
-                        Text("Second screen in the shared dogfood contract.")
+                        Text("Second screen, now with a clearer way back.")
                             .foregroundStyle(.secondary)
 
                         detailRow(label: "Saved note", value: note)
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
 
-                        Button("Back home") {
+                        Button("Return home") {
                             screen = .home
                         }
                         .buttonStyle(.bordered)

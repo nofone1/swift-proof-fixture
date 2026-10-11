@@ -21,7 +21,7 @@ struct ContentView: View {
                 Text(screen == .home ? "swift-minimal" : "Details")
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 
-                Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
+                Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, relaunch persistence, and proof re-runs.")
                     .font(.system(size: 16, weight: .regular, design: .rounded))
                     .foregroundStyle(.secondary)
 

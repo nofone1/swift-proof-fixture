@@ -1,109 +1,205 @@
 import SwiftUI
 
 struct ContentView: View {
-    private enum Screen {
-        case home
-        case details
-    }
-
-    @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
-    @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
-    @State private var screen: Screen = .home
-
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 18) {
-                Text("Xcode / SwiftUI")
-                    .font(.system(size: 12, weight: .bold, design: .rounded))
-                    .textCase(.uppercase)
-                    .foregroundStyle(Color(red: 0.43, green: 0.35, blue: 0.22))
+        ZStack {
+            Color.black.ignoresSafeArea()
 
-                Text(screen == .home ? "swift-minimal" : "Details")
-                    .font(.system(size: 34, weight: .bold, design: .rounded))
-
-                Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
-                    .font(.system(size: 16, weight: .regular, design: .rounded))
-                    .foregroundStyle(.secondary)
-
-                infoCard {
-                    detailRow(label: "Sample", value: "swift-minimal")
-                    detailRow(label: "Build system", value: "Xcode")
-                    detailRow(label: "Platform", value: "iOS Simulator")
-                    detailRow(label: "Build marker", value: "swift-minimal@1.0")
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 0) {
+                    Spacer().frame(height: 80)
+                    chromeHeartLogo
+                    Spacer().frame(height: 32)
+                    brandText
+                    Spacer().frame(height: 48)
+                    crossRow
+                    Spacer().frame(height: 40)
+                    scrollBanner
+                    Spacer().frame(height: 48)
+                    daggerGrid
+                    Spacer().frame(height: 60)
                 }
-
-                if screen == .home {
-                    infoCard {
-                        Text("Home")
-                            .font(.system(size: 22, weight: .bold, design: .rounded))
-
-                        Text("Edit the, flip the persisted toggle, then relaunch the simulator to confirm UserDefaults kept everything.")
-                            .foregroundStyle(.secondary)
-
-                        TextField("Persistent note", text: $note, axis: .vertical)
-                            .textFieldStyle(.roundedBorder)
-                            .lineLimit(4, reservesSpace: true)
-
-                        Toggle("Keep rebuild loop visible", isOn: $keepLoopVisible)
-
-                        Text("Relaunch-proof check: saved locally in UserDefaults.")
-                            .font(.system(size: 14, weight: .semibold, design: .rounded))
-                            .foregroundStyle(Color(red: 0.17, green: 0.37, blue: 0.34))
-
-                        Button("Open details") {
-                            screen = .details
-                        }
-                        .buttonStyle(.borderedProminent)
-                    }
-                } else {
-                    infoCard {
-                        Text("Details")
-                            .font(.system(size: 22, weight: .bold, design: .rounded))
-
-                        Text("Second screen in the shared dogfood contract.")
-                            .foregroundStyle(.secondary)
-
-                        detailRow(label: "Saved note", value: note)
-                        detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
-                        detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
-
-                        Button("Back home") {
-                            screen = .home
-                        }
-                        .buttonStyle(.bordered)
-                    }
-                }
+                .padding(.horizontal, 24)
             }
-            .padding(24)
         }
-        .background(Color(red: 0.96, green: 0.94, blue: 0.90))
     }
 
-    @ViewBuilder
-    private func infoCard<Content: View>(@ViewBuilder content: () -> Content) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            content()
+    // MARK: - Chrome Heart Logo
+
+    private var chromeHeartLogo: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 0)
+                .stroke(Color.white, lineWidth: 2)
+                .frame(width: 220, height: 220)
+
+            RoundedRectangle(cornerRadius: 0)
+                .stroke(Color.white, lineWidth: 1)
+                .frame(width: 210, height: 210)
+
+            ZStack {
+                HeartShape()
+                    .fill(Color.white)
+                    .frame(width: 120, height: 110)
+                    .offset(y: 8)
+
+                CrossShape()
+                    .fill(Color.black)
+                    .frame(width: 40, height: 60)
+                    .offset(y: 2)
+            }
+
+            fleurCorner.offset(x: -100, y: -100)
+            fleurCorner.rotationEffect(.degrees(90)).offset(x: 100, y: -100)
+            fleurCorner.rotationEffect(.degrees(180)).offset(x: 100, y: 100)
+            fleurCorner.rotationEffect(.degrees(270)).offset(x: -100, y: 100)
         }
-        .padding(18)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.white)
-        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 22, style: .continuous)
-                .stroke(Color.black.opacity(0.08), lineWidth: 1)
+    }
+
+    private var fleurCorner: some View {
+        Text("+")
+            .font(.system(size: 18, weight: .bold, design: .serif))
+            .foregroundColor(.white)
+    }
+
+    // MARK: - Brand Text
+
+    private var brandText: some View {
+        VStack(spacing: 6) {
+            Text("CHROME HEARTS")
+                .font(.system(size: 28, weight: .bold, design: .serif))
+                .tracking(8)
+                .foregroundColor(.white)
+
+            Rectangle()
+                .fill(Color.white)
+                .frame(width: 180, height: 1)
+
+            Text("LOS ANGELES")
+                .font(.system(size: 11, weight: .regular, design: .serif))
+                .tracking(6)
+                .foregroundColor(.white.opacity(0.6))
+
+            Text("ESTABLISHED 1988")
+                .font(.system(size: 9, weight: .light, design: .monospaced))
+                .tracking(4)
+                .foregroundColor(.white.opacity(0.35))
+        }
+    }
+
+    // MARK: - Cross Row
+
+    private var crossRow: some View {
+        HStack(spacing: 24) {
+            ForEach(0..<5) { _ in
+                CrossShape()
+                    .fill(Color.white)
+                    .frame(width: 16, height: 24)
+            }
+        }
+    }
+
+    // MARK: - Scroll Banner
+
+    private var scrollBanner: some View {
+        VStack(spacing: 0) {
+            Rectangle().fill(Color.white).frame(height: 1)
+            HStack {
+                Text("F U C K")
+                    .font(.system(size: 10, weight: .bold, design: .serif))
+                    .tracking(4)
+                Spacer()
+                Text("Y O U")
+                    .font(.system(size: 10, weight: .bold, design: .serif))
+                    .tracking(4)
+            }
+            .foregroundColor(.white.opacity(0.5))
+            .padding(.vertical, 8)
+            .padding(.horizontal, 4)
+            Rectangle().fill(Color.white).frame(height: 1)
+        }
+    }
+
+    // MARK: - Dagger Grid
+
+    private var daggerGrid: some View {
+        let items: [(String, String)] = [
+            ("DAGGER", "\u{2020}"),
+            ("FLORAL", "\u{2740}"),
+            ("HORSESHOE", "\u{03A9}"),
+            ("CEMETERY", "\u{271D}"),
+        ]
+
+        return LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+            ForEach(Array(items.enumerated()), id: \.offset) { _, item in
+                VStack(spacing: 8) {
+                    Text(item.1)
+                        .font(.system(size: 36, design: .serif))
+                        .foregroundColor(.white)
+                    Text(item.0)
+                        .font(.system(size: 9, weight: .bold, design: .serif))
+                        .tracking(3)
+                        .foregroundColor(.white.opacity(0.5))
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
+                .overlay(
+                    Rectangle().stroke(Color.white.opacity(0.3), lineWidth: 1)
+                )
+            }
+        }
+    }
+}
+
+// MARK: - Heart Shape
+
+struct HeartShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let w = rect.width
+        let h = rect.height
+
+        path.move(to: CGPoint(x: w * 0.5, y: h * 0.25))
+
+        path.addCurve(
+            to: CGPoint(x: 0, y: h * 0.25),
+            control1: CGPoint(x: w * 0.4, y: 0),
+            control2: CGPoint(x: 0, y: 0)
         )
+        path.addCurve(
+            to: CGPoint(x: w * 0.5, y: h),
+            control1: CGPoint(x: 0, y: h * 0.55),
+            control2: CGPoint(x: w * 0.5, y: h * 0.75)
+        )
+
+        path.addCurve(
+            to: CGPoint(x: w, y: h * 0.25),
+            control1: CGPoint(x: w * 0.5, y: h * 0.75),
+            control2: CGPoint(x: w, y: h * 0.55)
+        )
+        path.addCurve(
+            to: CGPoint(x: w * 0.5, y: h * 0.25),
+            control1: CGPoint(x: w, y: 0),
+            control2: CGPoint(x: w * 0.6, y: 0)
+        )
+
+        return path
     }
+}
 
-    @ViewBuilder
-    private func detailRow(label: String, value: String) -> some View {
-        VStack(alignment: .leading, spacing: 3) {
-            Text(label.uppercased())
-                .font(.system(size: 12, weight: .bold, design: .rounded))
-                .foregroundStyle(.secondary)
+// MARK: - Cross Shape
 
-            Text(value)
-                .font(.system(size: 16, weight: .regular, design: .rounded))
-                .foregroundStyle(.primary)
-        }
+struct CrossShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let w = rect.width
+        let h = rect.height
+        let armW = w * 0.35
+        let midX = w / 2
+        let midY = h * 0.35
+
+        path.addRect(CGRect(x: midX - armW / 2, y: 0, width: armW, height: h))
+        path.addRect(CGRect(x: 0, y: midY - armW / 2, width: w, height: armW))
+
+        return path
     }
 }

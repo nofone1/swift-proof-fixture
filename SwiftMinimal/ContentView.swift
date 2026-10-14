@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct ContentView: View {
     private enum Screen {
@@ -9,6 +10,9 @@ struct ContentView: View {
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
     @State private var screen: Screen = .home
+    @State private var attachedPhoto: UIImage?
+    @State private var showsCamera = false
+    @State private var showsNoCameraAlert = false
 
     var body: some View {
         ScrollView {
@@ -55,6 +59,37 @@ struct ContentView: View {
                         }
                         .buttonStyle(.borderedProminent)
                     }
+
+                    infoCard {
+                        Text("Photo")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+
+                        Text("Attach a photo taken with the camera to this note.")
+                            .foregroundStyle(.secondary)
+
+                        if let attachedPhoto {
+                            Image(uiImage: attachedPhoto)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(height: 160)
+                                .frame(maxWidth: .infinity)
+                                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+
+                            Button("Remove photo", role: .destructive) {
+                                self.attachedPhoto = nil
+                            }
+                            .buttonStyle(.bordered)
+                        } else {
+                            Button("Take photo") {
+                                if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                                    showsCamera = true
+                                } else {
+                                    showsNoCameraAlert = true
+                                }
+                            }
+                            .buttonStyle(.bordered)
+                        }
+                    }
                 } else {
                     infoCard {
                         Text("Details")
@@ -64,6 +99,7 @@ struct ContentView: View {
                             .foregroundStyle(.secondary)
 
                         detailRow(label: "Saved note", value: note)
+                        detailRow(label: "Photo", value: attachedPhoto == nil ? "None attached" : "Attached from camera")
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
 
@@ -77,6 +113,15 @@ struct ContentView: View {
             .padding(24)
         }
         .background(Color(red: 0.96, green: 0.94, blue: 0.90))
+        .fullScreenCover(isPresented: $showsCamera) {
+            CameraPicker(image: $attachedPhoto, isPresented: $showsCamera)
+                .ignoresSafeArea()
+        }
+        .alert("No camera available", isPresented: $showsNoCameraAlert) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("This device has no camera, so a photo can't be taken here.")
+        }
     }
 
     @ViewBuilder
@@ -104,6 +149,44 @@ struct ContentView: View {
             Text(value)
                 .font(.system(size: 16, weight: .regular, design: .rounded))
                 .foregroundStyle(.primary)
+        }
+    }
+}
+
+struct CameraPicker: UIViewControllerRepresentable {
+    @Binding var image: UIImage?
+    @Binding var isPresented: Bool
+
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        private let parent: CameraPicker
+
+        init(_ parent: CameraPicker) {
+            self.parent = parent
+        }
+
+        func imagePickerController(
+            _ picker: UIImagePickerController,
+            didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+        ) {
+            parent.image = info[.originalImage] as? UIImage
+            parent.isPresented = false
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            parent.isPresented = false
         }
     }
 }

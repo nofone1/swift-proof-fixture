@@ -62,7 +62,7 @@ struct ContentView: View {
                 .tracking(6)
                 .foregroundColor(.white.opacity(0.6))
 
-            Text("ESTABLISHED 1988 · E3-2")
+            Text("ESTABLISHED 1988 · E3-3")
                 .font(.system(size: 9, weight: .light, design: .monospaced))
                 .tracking(4)
                 .foregroundColor(.white.opacity(0.35))

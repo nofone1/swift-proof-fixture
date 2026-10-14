@@ -6,6 +6,8 @@ struct ContentView: View {
         case details
     }
 
+    static let noteCharacterLimit = 60
+
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
     @State private var screen: Screen = .home
@@ -43,6 +45,15 @@ struct ContentView: View {
                         TextField("Persistent note", text: $note, axis: .vertical)
                             .textFieldStyle(.roundedBorder)
                             .lineLimit(4, reservesSpace: true)
+                            .onChange(of: note) { _, newValue in
+                                if newValue.count > Self.noteCharacterLimit {
+                                    note = String(newValue.prefix(Self.noteCharacterLimit))
+                                }
+                            }
+
+                        Text("\(note.count)/\(Self.noteCharacterLimit) characters")
+                            .font(.system(size: 13, weight: .medium, design: .rounded))
+                            .foregroundStyle(note.count >= Self.noteCharacterLimit ? Color.red : Color.secondary)
 
                         Toggle("Keep rebuild loop visible", isOn: $keepLoopVisible)
 
@@ -64,6 +75,7 @@ struct ContentView: View {
                             .foregroundStyle(.secondary)
 
                         detailRow(label: "Saved note", value: note)
+                        detailRow(label: "Note length", value: "\(note.count) of \(Self.noteCharacterLimit) characters")
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
 

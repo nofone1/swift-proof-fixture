@@ -10,6 +10,16 @@ struct ContentView: View {
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
     @State private var screen: Screen = .home
 
+    private let showsNoteSummary = UserDefaults.standard.bool(forKey: "FeatureNoteSummary")
+
+    private var noteWordCount: Int {
+        note.split(whereSeparator: { $0.isWhitespace || $0.isNewline }).count
+    }
+
+    private var noteFirstLine: String {
+        note.split(separator: "\n", omittingEmptySubsequences: true).first.map(String.init) ?? ""
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
@@ -29,7 +39,7 @@ struct ContentView: View {
                     detailRow(label: "Sample", value: "swift-minimal")
                     detailRow(label: "Build system", value: "Xcode")
                     detailRow(label: "Platform", value: "iOS Simulator")
-                    detailRow(label: "Build marker", value: "swift-minimal@1.0")
+                    detailRow(label: "Build marker", value: "swift-minimal@1.1")
                 }
 
                 if screen == .home {
@@ -55,6 +65,16 @@ struct ContentView: View {
                         }
                         .buttonStyle(.borderedProminent)
                     }
+
+                    if showsNoteSummary {
+                        infoCard {
+                            Text("Note summary")
+                                .font(.system(size: 22, weight: .bold, design: .rounded))
+
+                            detailRow(label: "Words", value: "\(noteWordCount)")
+                            detailRow(label: "First line", value: noteFirstLine.isEmpty ? "Empty note" : noteFirstLine)
+                        }
+                    }
                 } else {
                     infoCard {
                         Text("Details")
@@ -64,6 +84,9 @@ struct ContentView: View {
                             .foregroundStyle(.secondary)
 
                         detailRow(label: "Saved note", value: note)
+                        if showsNoteSummary {
+                            detailRow(label: "Summary", value: "\(noteWordCount) words")
+                        }
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
 

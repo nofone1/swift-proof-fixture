@@ -1,3 +1,4 @@
+import CryptoKit
 import SwiftUI
 
 struct ContentView: View {
@@ -10,7 +11,15 @@ struct ContentView: View {
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
     @State private var screen: Screen = .home
 
-    private let showsNoteSummary = UserDefaults.standard.bool(forKey: "FeatureNoteSummary")
+    private static let noteSummaryTesterKeyDigest = "b68ca7bccef4c6609595599acd8ecfdbbdb8f207bb11140d6845b8e91c761220"
+
+    private let showsNoteSummary: Bool = {
+        guard let key = UserDefaults.standard.string(forKey: "NoteSummaryTesterKey") else {
+            return false
+        }
+        let digest = SHA256.hash(data: Data(key.utf8)).map { String(format: "%02x", $0) }.joined()
+        return digest == ContentView.noteSummaryTesterKeyDigest
+    }()
 
     private var noteWordCount: Int {
         note.split(whereSeparator: { $0.isWhitespace || $0.isNewline }).count

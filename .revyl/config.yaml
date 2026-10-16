@@ -3,38 +3,20 @@ project:
 session:
     idle_timeout_seconds: 600
 build:
-    framework: expo
+    framework: ios
     profiles:
         development:
             ios:
-                app_id: 552ac453-ea6b-458e-bbc1-1083555a2ffd
+                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
                 build_commands:
                     - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
                 output_path: build/Build/Products/Debug-iphonesimulator/*.app
-            android:
-                app_id: 5ab9aae8-d64c-4bde-8bdc-c9779d498d5d
-                build_commands:
-                    - ./gradlew assembleDebug
-                output_path: app/build/outputs/apk/debug/app-debug.apk
-            web:
-                build_commands:
-                    - npm run build
-                output_path: dist
         pr-review:
             ios:
-                app_id: 552ac453-ea6b-458e-bbc1-1083555a2ffd
+                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
                 build_commands:
                     - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
                 output_path: build/Build/Products/Debug-iphonesimulator/*.app
-            android:
-                app_id: 5ab9aae8-d64c-4bde-8bdc-c9779d498d5d
-                build_commands:
-                    - ./gradlew assembleDebug
-                output_path: app/build/outputs/apk/debug/app-debug.apk
-            web:
-                build_commands:
-                    - npm run build
-                output_path: dist
 pr_review:
     enabled: true
     review_triggers:

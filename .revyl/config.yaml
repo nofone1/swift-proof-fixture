@@ -3,7 +3,7 @@ project:
 session:
     idle_timeout_seconds: 600
 build:
-    framework: android
+    framework: expo
     profiles:
         development:
             ios:

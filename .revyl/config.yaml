@@ -16,6 +16,10 @@ build:
                 build_commands:
                     - ./gradlew assembleDebug
                 output_path: app/build/outputs/apk/debug/app-debug.apk
+            web:
+                build_commands:
+                    - npm run build
+                output_path: dist
         pr-review:
             ios:
                 app_id: 552ac453-ea6b-458e-bbc1-1083555a2ffd
@@ -27,6 +31,10 @@ build:
                 build_commands:
                     - ./gradlew assembleDebug
                 output_path: app/build/outputs/apk/debug/app-debug.apk
+            web:
+                build_commands:
+                    - npm run build
+                output_path: dist
 pr_review:
     enabled: true
     review_triggers:

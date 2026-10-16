@@ -107,3 +107,5 @@ struct ContentView: View {
         }
     }
 }
+
+// COG-7034 stale hash proof

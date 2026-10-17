@@ -1,3 +1,4 @@
+import OSLog
 import SwiftUI
 
 struct ContentView: View {
@@ -6,8 +7,12 @@ struct ContentView: View {
         case details
     }
 
+    private static let noteLog = Logger(subsystem: "com.revyl.swiftminimal", category: "note")
+
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
+    @AppStorage("swift_minimal_compact_header") private var compactHeader = false
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
     @State private var screen: Screen = .home
 
     var body: some View {
@@ -21,9 +26,17 @@ struct ContentView: View {
                 Text(screen == .home ? "swift-minimal" : "Details")
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 
-                Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
-                    .font(.system(size: 16, weight: .regular, design: .rounded))
-                    .foregroundStyle(.secondary)
+                if verticalSizeClass == .compact {
+                    Text("Landscape layout")
+                        .font(.system(size: 14, weight: .semibold, design: .rounded))
+                        .foregroundStyle(Color(red: 0.17, green: 0.37, blue: 0.34))
+                }
+
+                if !compactHeader {
+                    Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
+                        .font(.system(size: 16, weight: .regular, design: .rounded))
+                        .foregroundStyle(.secondary)
+                }
 
                 infoCard {
                     detailRow(label: "Sample", value: "swift-minimal")
@@ -46,11 +59,13 @@ struct ContentView: View {
 
                         Toggle("Keep rebuild loop visible", isOn: $keepLoopVisible)
 
+                        Toggle("Compact header", isOn: $compactHeader)
+
                         Text("Relaunch-proof check: saved locally in UserDefaults.")
                             .font(.system(size: 14, weight: .semibold, design: .rounded))
                             .foregroundStyle(Color(red: 0.17, green: 0.37, blue: 0.34))
 
-                        Button("Open details") {
+                        Button("View details") {
                             screen = .details
                         }
                         .buttonStyle(.borderedProminent)
@@ -64,6 +79,7 @@ struct ContentView: View {
                             .foregroundStyle(.secondary)
 
                         detailRow(label: "Saved note", value: note)
+                        detailRow(label: "Note length", value: "\(note.count) characters")
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
 
@@ -77,6 +93,9 @@ struct ContentView: View {
             .padding(24)
         }
         .background(Color(red: 0.96, green: 0.94, blue: 0.90))
+        .onChange(of: note) { _, newValue in
+            Self.noteLog.info("note_saved length=\(newValue.count, privacy: .public)")
+        }
     }
 
     @ViewBuilder

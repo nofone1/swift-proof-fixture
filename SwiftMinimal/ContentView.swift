@@ -55,6 +55,26 @@ struct ContentView: View {
                         }
                         .buttonStyle(.borderedProminent)
                     }
+
+                    infoCard {
+                        HStack(alignment: .top) {
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("Weekly insights")
+                                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                                Text("All 12 workflow checks completed")
+                                    .foregroundStyle(.secondary)
+                                Text("Updated just now")
+                                    .font(.system(size: 13, weight: .medium, design: .rounded))
+                                    .foregroundStyle(Color.gray.opacity(0.28))
+                            }
+
+                            Spacer()
+
+                            Image(systemName: "checkmark.seal.fill")
+                                .font(.system(size: 28))
+                                .foregroundStyle(.green)
+                        }
+                    }
                 } else {
                     infoCard {
                         Text("Details")

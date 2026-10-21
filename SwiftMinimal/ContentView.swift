@@ -21,7 +21,7 @@ struct ContentView: View {
                 Text(screen == .home ? "swift-minimal" : "Details")
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 
-                Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
+                Text("A compact workspace for validating navigation, editing, and relaunch persistence.")
                     .font(.system(size: 16, weight: .regular, design: .rounded))
                     .foregroundStyle(.secondary)
 
@@ -37,7 +37,7 @@ struct ContentView: View {
                         Text("Home")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
 
-                        Text("Edit the, flip the persisted toggle, then relaunch the simulator to confirm UserDefaults kept everything.")
+                        Text("Edit the note, flip the persisted toggle, then relaunch the simulator to confirm UserDefaults kept everything.")
                             .foregroundStyle(.secondary)
 
                         TextField("Persistent note", text: $note, axis: .vertical)

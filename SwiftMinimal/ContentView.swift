@@ -2,108 +2,257 @@ import SwiftUI
 
 struct ContentView: View {
     private enum Screen {
-        case home
-        case details
+        case lookbook
+        case piece(Piece)
     }
 
-    @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
-    @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
-    @State private var screen: Screen = .home
+    private struct Piece: Identifiable, Hashable {
+        let id: String
+        let name: String
+        let mark: String
+        let line: String
+    }
+
+    private let pieces: [Piece] = [
+        Piece(id: "cemetery", name: "CEMETERY CROSS", mark: "\u{271D}", line: "Sterling pendant"),
+        Piece(id: "dagger", name: "DAGGER", mark: "\u{2020}", line: "Silver charm"),
+        Piece(id: "floral", name: "FLORAL", mark: "\u{2740}", line: "Engraved ring"),
+        Piece(id: "horseshoe", name: "HORSESHOE", mark: "\u{03A9}", line: "Belt buckle"),
+    ]
+
+    @State private var screen: Screen = .lookbook
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 18) {
-                Text("Xcode / SwiftUI")
-                    .font(.system(size: 12, weight: .bold, design: .rounded))
-                    .textCase(.uppercase)
-                    .foregroundStyle(Color(red: 0.43, green: 0.35, blue: 0.22))
-
-                Text(screen == .home ? "swift-minimal" : "Details")
-                    .font(.system(size: 34, weight: .bold, design: .rounded))
-
-                Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
-                    .font(.system(size: 16, weight: .regular, design: .rounded))
-                    .foregroundStyle(.secondary)
-
-                infoCard {
-                    detailRow(label: "Sample", value: "swift-minimal")
-                    detailRow(label: "Build system", value: "Xcode")
-                    detailRow(label: "Platform", value: "iOS Simulator")
-                    detailRow(label: "Build marker", value: "swift-minimal@1.0")
-                }
-
-                if screen == .home {
-                    infoCard {
-                        Text("Home")
-                            .font(.system(size: 22, weight: .bold, design: .rounded))
-
-                        Text("Edit the, flip the persisted toggle, then relaunch the simulator to confirm UserDefaults kept everything.")
-                            .foregroundStyle(.secondary)
-
-                        TextField("Persistent note", text: $note, axis: .vertical)
-                            .textFieldStyle(.roundedBorder)
-                            .lineLimit(4, reservesSpace: true)
-
-                        Toggle("Keep rebuild loop visible", isOn: $keepLoopVisible)
-
-                        Text("Relaunch-proof check: saved locally in UserDefaults.")
-                            .font(.system(size: 14, weight: .semibold, design: .rounded))
-                            .foregroundStyle(Color(red: 0.17, green: 0.37, blue: 0.34))
-
-                        Button("Open details") {
-                            screen = .details
-                        }
-                        .buttonStyle(.borderedProminent)
-                    }
-                } else {
-                    infoCard {
-                        Text("Details")
-                            .font(.system(size: 22, weight: .bold, design: .rounded))
-
-                        Text("Second screen in the shared dogfood contract.")
-                            .foregroundStyle(.secondary)
-
-                        detailRow(label: "Saved note", value: note)
-                        detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
-                        detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
-
-                        Button("Back home") {
-                            screen = .home
-                        }
-                        .buttonStyle(.bordered)
-                    }
-                }
+        ZStack {
+            Color.black.ignoresSafeArea()
+            switch screen {
+            case .lookbook:
+                lookbook
+            case .piece(let piece):
+                pieceDetail(piece)
             }
-            .padding(24)
         }
-        .background(Color(red: 0.96, green: 0.94, blue: 0.90))
+        .preferredColorScheme(.dark)
     }
 
-    @ViewBuilder
-    private func infoCard<Content: View>(@ViewBuilder content: () -> Content) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            content()
+    private var lookbook: some View {
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 0) {
+                modeStrip
+                Spacer().frame(height: 36)
+                chromeHeartLogo
+                Spacer().frame(height: 28)
+                brandText
+                Spacer().frame(height: 36)
+                collectionBanner
+                Spacer().frame(height: 28)
+                pieceGrid
+                Spacer().frame(height: 48)
+            }
+            .padding(.horizontal, 24)
         }
-        .padding(18)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.white)
-        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 22, style: .continuous)
-                .stroke(Color.black.opacity(0.08), lineWidth: 1)
+    }
+
+    private var modeStrip: some View {
+        HStack {
+            Text("SWIFT PROOF")
+                .font(.system(size: 12, weight: .semibold, design: .serif))
+                .tracking(2.5)
+                .foregroundColor(.white.opacity(0.72))
+
+            Spacer()
+
+            Text("MARKER v32")
+                .font(.system(size: 10, weight: .bold, design: .monospaced))
+                .tracking(2)
+                .foregroundColor(.black)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 5)
+                .background(Capsule().fill(Color.white.opacity(0.86)))
+        }
+        .padding(.top, 14)
+    }
+
+    private var chromeHeartLogo: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 0)
+                .stroke(Color.white, lineWidth: 2)
+                .frame(width: 220, height: 220)
+
+            RoundedRectangle(cornerRadius: 0)
+                .stroke(Color.white, lineWidth: 1)
+                .frame(width: 210, height: 210)
+
+            ZStack {
+                HeartShape()
+                    .fill(Color.white)
+                    .frame(width: 120, height: 110)
+                    .offset(y: 8)
+
+                CrossShape()
+                    .fill(Color.black)
+                    .frame(width: 40, height: 60)
+                    .offset(y: 2)
+            }
+
+            fleurCorner.offset(x: -100, y: -100)
+            fleurCorner.rotationEffect(.degrees(90)).offset(x: 100, y: -100)
+            fleurCorner.rotationEffect(.degrees(180)).offset(x: 100, y: 100)
+            fleurCorner.rotationEffect(.degrees(270)).offset(x: -100, y: 100)
+        }
+        .accessibilityIdentifier("chrome-hearts-logo")
+    }
+
+    private var fleurCorner: some View {
+        Text("+")
+            .font(.system(size: 18, weight: .bold, design: .serif))
+            .foregroundColor(.white)
+    }
+
+    private var brandText: some View {
+        VStack(spacing: 6) {
+            Text("CHROME HEARTS")
+                .font(.system(size: 28, weight: .bold, design: .serif))
+                .tracking(8)
+                .foregroundColor(.white)
+
+            Rectangle()
+                .fill(Color.white)
+                .frame(width: 180, height: 1)
+
+            Text("LOS ANGELES")
+                .font(.system(size: 11, weight: .regular, design: .serif))
+                .tracking(6)
+                .foregroundColor(.white.opacity(0.6))
+
+            Text("SILVERLAKE COLLECTION")
+                .font(.system(size: 11, weight: .semibold, design: .serif))
+                .tracking(4)
+                .foregroundColor(.white)
+                .padding(.top, 8)
+        }
+    }
+
+    private var collectionBanner: some View {
+        VStack(spacing: 0) {
+            Rectangle().fill(Color.white).frame(height: 1)
+            HStack {
+                Text("COLLECTION 32")
+                    .font(.system(size: 10, weight: .bold, design: .serif))
+                    .tracking(3)
+                Spacer()
+                Text("EST. 1988")
+                    .font(.system(size: 10, weight: .bold, design: .serif))
+                    .tracking(3)
+            }
+            .foregroundColor(.white.opacity(0.7))
+            .padding(.vertical, 10)
+            Rectangle().fill(Color.white).frame(height: 1)
+        }
+    }
+
+    private var pieceGrid: some View {
+        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+            ForEach(pieces) { piece in
+                Button {
+                    screen = .piece(piece)
+                } label: {
+                    VStack(spacing: 8) {
+                        Text(piece.mark)
+                            .font(.system(size: 36, design: .serif))
+                            .foregroundColor(.white)
+                        Text(piece.name)
+                            .font(.system(size: 9, weight: .bold, design: .serif))
+                            .tracking(2)
+                            .foregroundColor(.white.opacity(0.7))
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 20)
+                    .overlay(Rectangle().stroke(Color.white.opacity(0.33), lineWidth: 1))
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("piece-\(piece.id)")
+            }
+        }
+    }
+
+    private func pieceDetail(_ piece: Piece) -> some View {
+        VStack(spacing: 24) {
+            modeStrip
+            Spacer()
+            Text(piece.mark)
+                .font(.system(size: 72, design: .serif))
+                .foregroundColor(.white)
+            Text(piece.name)
+                .font(.system(size: 22, weight: .bold, design: .serif))
+                .tracking(4)
+                .foregroundColor(.white)
+            Text(piece.line)
+                .font(.system(size: 14, weight: .regular, design: .serif))
+                .foregroundColor(.white.opacity(0.6))
+            Text("CHROME HEARTS · MARKER v32")
+                .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                .tracking(2)
+                .foregroundColor(.white.opacity(0.85))
+            Button("Back to lookbook") {
+                screen = .lookbook
+            }
+            .buttonStyle(.bordered)
+            .tint(.white)
+            .padding(.top, 8)
+            Spacer()
+        }
+        .padding(.horizontal, 24)
+    }
+}
+
+struct HeartShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let w = rect.width
+        let h = rect.height
+
+        path.move(to: CGPoint(x: w * 0.5, y: h * 0.25))
+        path.addCurve(
+            to: CGPoint(x: 0, y: h * 0.25),
+            control1: CGPoint(x: w * 0.4, y: 0),
+            control2: CGPoint(x: 0, y: 0)
         )
+        path.addCurve(
+            to: CGPoint(x: w * 0.5, y: h),
+            control1: CGPoint(x: 0, y: h * 0.55),
+            control2: CGPoint(x: w * 0.5, y: h * 0.75)
+        )
+        path.addCurve(
+            to: CGPoint(x: w, y: h * 0.25),
+            control1: CGPoint(x: w * 0.5, y: h * 0.75),
+            control2: CGPoint(x: w, y: h * 0.55)
+        )
+        path.addCurve(
+            to: CGPoint(x: w * 0.5, y: h * 0.25),
+            control1: CGPoint(x: w, y: 0),
+            control2: CGPoint(x: w * 0.6, y: 0)
+        )
+        return path
     }
+}
 
-    @ViewBuilder
-    private func detailRow(label: String, value: String) -> some View {
-        VStack(alignment: .leading, spacing: 3) {
-            Text(label.uppercased())
-                .font(.system(size: 12, weight: .bold, design: .rounded))
-                .foregroundStyle(.secondary)
+struct CrossShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let w = rect.width
+        let h = rect.height
+        let armW = w * 0.35
+        let midX = w / 2
+        let midY = h * 0.35
 
-            Text(value)
-                .font(.system(size: 16, weight: .regular, design: .rounded))
-                .foregroundStyle(.primary)
-        }
+        path.addRect(CGRect(x: midX - armW / 2, y: 0, width: armW, height: h))
+        path.addRect(CGRect(x: 0, y: midY - armW / 2, width: w, height: armW))
+        return path
     }
+}
+
+#Preview {
+    ContentView()
 }

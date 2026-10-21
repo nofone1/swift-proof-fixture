@@ -9,6 +9,8 @@ struct ContentView: View {
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
     @State private var screen: Screen = .home
+    @State private var preferredChannel = "Email"
+    @State private var channelDraft = "Email"
 
     var body: some View {
         ScrollView {
@@ -52,6 +54,23 @@ struct ContentView: View {
 
                         Button("Open details") {
                             screen = .details
+                        }
+                        .buttonStyle(.borderedProminent)
+                    }
+
+                    infoCard {
+                        Text("Summary delivery")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+
+                        detailRow(label: "Current channel", value: preferredChannel)
+
+                        Picker("Delivery channel", selection: $channelDraft) {
+                            Text("Email").tag("Email")
+                            Text("Push").tag("Push")
+                        }
+                        .pickerStyle(.segmented)
+
+                        Button("Apply preference") {
                         }
                         .buttonStyle(.borderedProminent)
                     }

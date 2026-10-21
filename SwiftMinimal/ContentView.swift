@@ -68,7 +68,7 @@ struct ContentView: View {
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
 
                         Button("Back home") {
-                            screen = .home
+                            screen = .details
                         }
                         .buttonStyle(.bordered)
                     }

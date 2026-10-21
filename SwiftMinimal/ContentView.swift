@@ -18,7 +18,7 @@ struct ContentView: View {
                     .textCase(.uppercase)
                     .foregroundStyle(Color(red: 0.43, green: 0.35, blue: 0.22))
 
-                Text(screen == .home ? "swift-minimal" : "Details")
+                Text(screen == .home ? "swift-minimal · london" : "Details")
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 
                 Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
@@ -29,7 +29,7 @@ struct ContentView: View {
                     detailRow(label: "Sample", value: "swift-minimal")
                     detailRow(label: "Build system", value: "Xcode")
                     detailRow(label: "Platform", value: "iOS Simulator")
-                    detailRow(label: "Build marker", value: "swift-minimal@1.0")
+                    detailRow(label: "Build marker", value: "swift-minimal@london-atlas")
                 }
 
                 if screen == .home {
@@ -37,7 +37,7 @@ struct ContentView: View {
                         Text("Home")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
 
-                        Text("Edit the, flip the persisted toggle, then relaunch the simulator to confirm UserDefaults kept everything.")
+                        Text("Edit the note, tap Save note, then open Details to confirm UserDefaults kept it.")
                             .foregroundStyle(.secondary)
 
                         TextField("Persistent note", text: $note, axis: .vertical)
@@ -50,10 +50,15 @@ struct ContentView: View {
                             .font(.system(size: 14, weight: .semibold, design: .rounded))
                             .foregroundStyle(Color(red: 0.17, green: 0.37, blue: 0.34))
 
+                        Button("Save note") {
+                            note = ""
+                        }
+                        .buttonStyle(.borderedProminent)
+
                         Button("Open details") {
                             screen = .details
                         }
-                        .buttonStyle(.borderedProminent)
+                        .buttonStyle(.bordered)
                     }
                 } else {
                     infoCard {

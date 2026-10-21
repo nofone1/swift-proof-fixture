@@ -4,11 +4,28 @@ struct ContentView: View {
     private enum Screen {
         case home
         case details
+        case activity
+        case settings
     }
 
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
     @State private var screen: Screen = .home
+    @State private var dailyDigestEnabled = true
+    @State private var selectedRetention = "30 days"
+
+    private var screenTitle: String {
+        switch screen {
+        case .home:
+            return "swift-minimal"
+        case .details:
+            return "Details"
+        case .activity:
+            return "Activity"
+        case .settings:
+            return "Settings"
+        }
+    }
 
     var body: some View {
         ScrollView {
@@ -18,7 +35,7 @@ struct ContentView: View {
                     .textCase(.uppercase)
                     .foregroundStyle(Color(red: 0.43, green: 0.35, blue: 0.22))
 
-                Text(screen == .home ? "swift-minimal" : "Details")
+                Text(screenTitle)
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 
                 Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
@@ -54,8 +71,20 @@ struct ContentView: View {
                             screen = .details
                         }
                         .buttonStyle(.borderedProminent)
+
+                        HStack {
+                            Button("View activity") {
+                                screen = .activity
+                            }
+                            .buttonStyle(.bordered)
+
+                            Button("Open settings") {
+                                screen = .settings
+                            }
+                            .buttonStyle(.bordered)
+                        }
                     }
-                } else {
+                } else if screen == .details {
                     infoCard {
                         Text("Details")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
@@ -66,6 +95,40 @@ struct ContentView: View {
                         detailRow(label: "Saved note", value: note)
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
+
+                        Button("Back home") {
+                            screen = .home
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                } else if screen == .activity {
+                    infoCard {
+                        Text("Recent activity")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+                        detailRow(label: "Today", value: "4 checks completed")
+                        detailRow(label: "Yesterday", value: "7 checks completed")
+                        detailRow(label: "This week", value: "23 checks completed")
+
+                        Button("Back home") {
+                            screen = .home
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                } else {
+                    infoCard {
+                        Text("Workspace settings")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+
+                        Toggle("Send a daily digest", isOn: $dailyDigestEnabled)
+
+                        Picker("Activity retention", selection: $selectedRetention) {
+                            Text("7 days").tag("7 days")
+                            Text("30 days").tag("30 days")
+                            Text("90 days").tag("90 days")
+                        }
+                        .pickerStyle(.segmented)
+
+                        detailRow(label: "Current retention", value: selectedRetention)
 
                         Button("Back home") {
                             screen = .home

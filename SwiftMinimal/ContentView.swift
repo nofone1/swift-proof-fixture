@@ -60,7 +60,7 @@ struct ContentView: View {
                         Text("Details")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
 
-                        Text("Second screen: COG-9699 durable proof check five.")
+                        Text("Second screen: COG-9699 durable proof check six.")
                             .foregroundStyle(.secondary)
 
                         detailRow(label: "Saved note", value: note)

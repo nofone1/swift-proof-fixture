@@ -1,32 +1,37 @@
 project:
-    id: 661a6e16-d93a-5d57-a289-419091c391dc
+  id: 661a6e16-d93a-5d57-a289-419091c391dc
 session:
-    idle_timeout_seconds: 600
+  idle_timeout_seconds: 600
 build:
-    framework: ios
-    profiles:
-        development:
-            ios:
-                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
-                build_commands:
-                    - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
-                output_path: build/Build/Products/Debug-iphonesimulator/*.app
-        pr-review:
-            ios:
-                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
-                build_commands:
-                    - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
-                output_path: build/Build/Products/Debug-iphonesimulator/*.app
+  framework: ios
+  profiles:
+    development:
+      ios:
+        app_id: b2addfb7-3ebb-467e-88ba-9d1e4eb9aa97
+        build_commands:
+        - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration
+          Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator'
+          -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+        output_path: build/Build/Products/Debug-iphonesimulator/*.app
+    pr-review:
+      ios:
+        app_id: b2addfb7-3ebb-467e-88ba-9d1e4eb9aa97
+        build_commands:
+        - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration
+          Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator'
+          -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+        output_path: build/Build/Products/Debug-iphonesimulator/*.app
 pr_review:
-    enabled: true
-    review_triggers:
-        drafts: false
-    build:
-        kind: revyl
-        profile: pr-review
-    proof_of_changes:
-        enabled: true
-        harness:
-            kind: revyl
-    strict_ci_check:
-        build: true
+  enabled: true
+  review_triggers:
+    drafts: false
+  build:
+    kind: ci_upload_to_revyl
+    app_ids:
+      ios: b2addfb7-3ebb-467e-88ba-9d1e4eb9aa97
+  proof_of_changes:
+    enabled: false
+    harness:
+      kind: revyl
+  strict_ci_check:
+    build: true

@@ -30,7 +30,7 @@ pr_review:
     app_ids:
       ios: b2addfb7-3ebb-467e-88ba-9d1e4eb9aa97
   proof_of_changes:
-    enabled: false
+    enabled: true
     harness:
       kind: revyl
   strict_ci_check:

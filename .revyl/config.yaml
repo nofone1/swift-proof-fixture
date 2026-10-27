@@ -1,32 +1,44 @@
 project:
-    id: 661a6e16-d93a-5d57-a289-419091c391dc
+  id: 661a6e16-d93a-5d57-a289-419091c391dc
 session:
-    idle_timeout_seconds: 600
+  idle_timeout_seconds: 600
 build:
-    framework: ios
-    profiles:
-        development:
-            ios:
-                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
-                build_commands:
-                    - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
-                output_path: build/Build/Products/Debug-iphonesimulator/*.app
-        pr-review:
-            ios:
-                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
-                build_commands:
-                    - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
-                output_path: build/Build/Products/Debug-iphonesimulator/*.app
+  framework: ios
+  profiles:
+    development:
+      ios:
+        app_id: 6c68a29a-3944-4a15-b53d-57b620d13947
+        build_commands:
+        - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration
+          Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator'
+          -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+        output_path: build/Build/Products/Debug-iphonesimulator/*.app
+    pr-review:
+      ios:
+        app_id: 6c68a29a-3944-4a15-b53d-57b620d13947
+        build_commands:
+        - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration
+          Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator'
+          -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+        output_path: build/Build/Products/Debug-iphonesimulator/*.app
 pr_review:
+  enabled: true
+  review_triggers:
+    drafts: false
+  build:
+    kind: revyl
+    profile: pr-review
+  proof_of_changes:
     enabled: true
-    review_triggers:
-        drafts: false
-    build:
-        kind: revyl
-        profile: pr-review
-    proof_of_changes:
-        enabled: true
-        harness:
-            kind: revyl
-    strict_ci_check:
-        build: true
+    harness:
+      kind: revyl
+    system_prompt: 'This is an isolated synthetic fixture verification of a missing
+      agent write-up. Start the real iOS device with the managed PR build, inspect
+      the screen using the Revyl CLI, tap Open details, then inspect the Details screen.
+      Do not create any finding, bug, issue, test, or workflow. After those real device
+      interactions, stop without running revyl proof comment. Do not publish a write-up,
+      even if a follow-up nudge asks you to publish one. Your final response must
+      be exactly: "Stopped intentionally after real device interaction to verify missing-write-up
+      rendering." Do not simulate a device interaction, completion callback, or report.'
+  strict_ci_check:
+    build: true

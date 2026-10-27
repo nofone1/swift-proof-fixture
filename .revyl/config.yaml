@@ -1,32 +1,46 @@
 project:
-    id: 661a6e16-d93a-5d57-a289-419091c391dc
+  id: 661a6e16-d93a-5d57-a289-419091c391dc
 session:
-    idle_timeout_seconds: 600
+  idle_timeout_seconds: 600
 build:
-    framework: ios
-    profiles:
-        development:
-            ios:
-                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
-                build_commands:
-                    - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
-                output_path: build/Build/Products/Debug-iphonesimulator/*.app
-        pr-review:
-            ios:
-                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
-                build_commands:
-                    - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
-                output_path: build/Build/Products/Debug-iphonesimulator/*.app
+  framework: ios
+  profiles:
+    development:
+      ios:
+        app_id: 6c68a29a-3944-4a15-b53d-57b620d13947
+        build_commands:
+        - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration
+          Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator'
+          -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+        output_path: build/Build/Products/Debug-iphonesimulator/*.app
+    pr-review:
+      ios:
+        app_id: 6c68a29a-3944-4a15-b53d-57b620d13947
+        build_commands:
+        - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration
+          Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator'
+          -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+        output_path: build/Build/Products/Debug-iphonesimulator/*.app
 pr_review:
+  enabled: true
+  review_triggers:
+    drafts: false
+  build:
+    kind: revyl
+    profile: pr-review
+  proof_of_changes:
     enabled: true
-    review_triggers:
-        drafts: false
-    build:
-        kind: revyl
-        profile: pr-review
-    proof_of_changes:
-        enabled: true
-        harness:
-            kind: revyl
-    strict_ci_check:
-        build: true
+    harness:
+      kind: revyl
+    system_prompt: 'This is an isolated synthetic fixture verification. Start the
+      real iOS device with the managed PR build. Use the Revyl CLI to inspect the
+      screen, tap Open details, and inspect the checkout rows. The subtotal is $100.00,
+      tax is $8.00, and the deliberately broken checkout total is $100.00 instead
+      of $108.00. Do not change code. Do not create or update any finding, bug, issue,
+      test, or workflow. After actually interacting with the device, write a short
+      Markdown write-up to /tmp/cog11884-writeup.md stating the observed subtotal,
+      tax, and total. Then execute exactly: revyl proof comment /tmp/cog11884-writeup.md
+      --problem "The checkout total excludes tax." Do not use --blocked. End after
+      the comment is accepted.'
+  strict_ci_check:
+    build: true

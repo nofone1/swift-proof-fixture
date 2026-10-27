@@ -29,7 +29,7 @@ struct ContentView: View {
                     detailRow(label: "Sample", value: "swift-minimal")
                     detailRow(label: "Build system", value: "Xcode")
                     detailRow(label: "Platform", value: "iOS Simulator")
-                    detailRow(label: "Build marker", value: "swift-minimal@1.0")
+                    detailRow(label: "Build marker", value: "revup/cog11884-problem")
                 }
 
                 if screen == .home {
@@ -63,6 +63,9 @@ struct ContentView: View {
                         Text("Second screen in the shared dogfood contract.")
                             .foregroundStyle(.secondary)
 
+                        detailRow(label: "Checkout subtotal", value: "$100.00")
+                        detailRow(label: "Tax", value: "$8.00")
+                        detailRow(label: "Checkout total", value: "$100.00")
                         detailRow(label: "Saved note", value: note)
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")

@@ -13,6 +13,10 @@ struct ContentView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
+                Text("Proof Contract Runtime")
+                    .font(.system(size: 12, weight: .bold, design: .rounded))
+                    .foregroundStyle(.blue)
+
                 Text("Xcode / SwiftUI")
                     .font(.system(size: 12, weight: .bold, design: .rounded))
                     .textCase(.uppercase)

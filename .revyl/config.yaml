@@ -28,5 +28,10 @@ pr_review:
         enabled: true
         harness:
             kind: revyl
+        system_prompt: >-
+            The changed home screen is behind a sign-in gate. No test account or
+            credentials are available in this proof run. Do not invent credentials,
+            bypass the gate, or edit the app to get around it. If the gate prevents
+            observing the changed screen, report --blocked with category sign_in.
     strict_ci_check:
         build: true

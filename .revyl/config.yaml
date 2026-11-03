@@ -28,5 +28,13 @@ pr_review:
         enabled: true
         harness:
             kind: revyl
+        system_prompt: >-
+            This fixture intentionally presents a sign-in gate with no test account.
+            Do not invent credentials or bypass the gate. When it prevents observing
+            the changed home, publish with this exact separate CLI flag: revyl proof
+            comment write-up.md --blocked "The changed home could not be observed
+            because no test account is available" --blocked-reason-category sign_in.
+            The category must be passed as --blocked-reason-category sign_in, not
+            merely written inside the blocked sentence.
     strict_ci_check:
         build: true

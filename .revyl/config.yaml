@@ -28,5 +28,16 @@ pr_review:
         enabled: true
         harness:
             kind: revyl
+        system_prompt: >-
+            This fixture intentionally presents a sign-in gate with no test account.
+            Do not invent credentials or bypass the gate. After writing write-up.md,
+            the installed CLI may be too old for the category flag. In that case,
+            publish the blocked result directly to the authenticated proof endpoint
+            with this shell command, replacing BODY with the write-up JSON string:
+            curl -sS -X PUT "${REVYL_BACKEND_URL%/}/api/v1/scm/proof-runs/comment"
+            -H "Authorization: Bearer $REVYL_API_KEY" -H "Content-Type: application/json"
+            --data "{\"body\":BODY,\"blocked\":\"The changed home could not
+            be observed because no test account is available\",\"blocked_reason_category\":\"sign_in\"}".
+            Do not use the old revyl proof comment command without the category.
     strict_ci_check:
         build: true

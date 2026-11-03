@@ -28,5 +28,11 @@ pr_review:
         enabled: true
         harness:
             kind: revyl
+        system_prompt: >-
+            This fixture intentionally presents a sign-in gate with no test account.
+            Do not invent credentials or bypass the gate. After writing write-up.md,
+            publish the blocked result to the authenticated proof endpoint using
+            curl and the JSON fields body, blocked, and blocked_reason_category set
+            to sign_in. The backend for this run supports the category field.
     strict_ci_check:
         build: true

@@ -28,5 +28,13 @@ pr_review:
         enabled: true
         harness:
             kind: revyl
+        system_prompt: >-
+            This fixture intentionally crashes at launch. Do not classify this as a
+            passing proof or a pull-request problem. You must report --blocked with
+            blocked-reason-category app_crash_or_launch_failure. Do not call the
+            Revyl CLI. After writing write-up.md, publish only with curl to
+            https://anamhira47-staging-d1b8a8-backend.revyl.ai/api/v1/scm/proof-runs/comment
+            using Authorization Bearer $REVYL_API_KEY and JSON fields body, blocked,
+            and blocked_reason_category set to app_crash_or_launch_failure.
     strict_ci_check:
         build: true

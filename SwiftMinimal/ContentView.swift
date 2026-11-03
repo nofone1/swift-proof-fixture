@@ -7,7 +7,6 @@ struct ContentView: View {
     }
 
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
-    @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
     @State private var screen: Screen = .home
 
     var body: some View {
@@ -44,8 +43,6 @@ struct ContentView: View {
                             .textFieldStyle(.roundedBorder)
                             .lineLimit(4, reservesSpace: true)
 
-                        Toggle("Keep rebuild loop visible", isOn: $keepLoopVisible)
-
                         Text("Relaunch-proof check: saved locally in UserDefaults.")
                             .font(.system(size: 14, weight: .semibold, design: .rounded))
                             .foregroundStyle(Color(red: 0.17, green: 0.37, blue: 0.34))
@@ -64,7 +61,7 @@ struct ContentView: View {
                             .foregroundStyle(.secondary)
 
                         detailRow(label: "Saved note", value: note)
-                        detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
+                        detailRow(label: "Saved toggle", value: "On across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
 
                         Button("Back home") {

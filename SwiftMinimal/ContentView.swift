@@ -4,10 +4,12 @@ struct ContentView: View {
     private enum Screen {
         case home
         case details
+        case settings
     }
 
     @AppStorage("swift_minimal_note") private var note = "Edit this note, rebuild, then relaunch."
     @AppStorage("swift_minimal_keep_loop_visible") private var keepLoopVisible = true
+    @AppStorage("swift_minimal_reminder_count") private var reminderCount = 2
     @State private var screen: Screen = .home
 
     var body: some View {
@@ -18,7 +20,7 @@ struct ContentView: View {
                     .textCase(.uppercase)
                     .foregroundStyle(Color(red: 0.43, green: 0.35, blue: 0.22))
 
-                Text(screen == .home ? "swift-minimal" : "Details")
+                Text(title)
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 
                 Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
@@ -54,10 +56,30 @@ struct ContentView: View {
                             screen = .details
                         }
                         .buttonStyle(.borderedProminent)
+
+                        Button("Open settings") {
+                            screen = .settings
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                } else if screen == .settings {
+                    infoCard {
+                        Text("Settings")
+                            .font(.system(size: 22, weight: .bold, design: .rounded))
+
+                        Text("Choose how many daily reminders to show. Saved locally in UserDefaults.")
+                            .foregroundStyle(.secondary)
+
+                        Stepper("Daily reminders: \(reminderCount)", value: $reminderCount, in: 0...10)
+
+                        Button("Back home") {
+                            screen = .home
+                        }
+                        .buttonStyle(.bordered)
                     }
                 } else {
                     infoCard {
-                        Text("Details")
+                        Text("Proof details")
                             .font(.system(size: 22, weight: .bold, design: .rounded))
 
                         Text("Second screen in the shared dogfood contract.")
@@ -66,6 +88,7 @@ struct ContentView: View {
                         detailRow(label: "Saved note", value: note)
                         detailRow(label: "Saved toggle", value: keepLoopVisible ? "On across relaunches" : "Off across relaunches")
                         detailRow(label: "Journey", value: "Init -> dev -> edit -> rebuild -> relaunch -> confirm state")
+                        detailRow(label: "Daily reminders", value: "\(reminderCount) per day")
 
                         Button("Back home") {
                             screen = .home
@@ -77,6 +100,17 @@ struct ContentView: View {
             .padding(24)
         }
         .background(Color(red: 0.96, green: 0.94, blue: 0.90))
+    }
+
+    private var title: String {
+        switch screen {
+        case .home:
+            return "swift-minimal"
+        case .details:
+            return "Proof details"
+        case .settings:
+            return "Settings"
+        }
     }
 
     @ViewBuilder

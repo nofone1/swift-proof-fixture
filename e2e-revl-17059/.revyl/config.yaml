@@ -1,0 +1,29 @@
+project:
+  id: 637776f8-5b09-41a9-96c3-48bb3bfdf09a
+session:
+  idle_timeout_seconds: 600
+build:
+  framework: ios
+  profiles:
+    pr-review:
+      ios:
+        app_id: 1fb0ef3c-36d6-4bb7-b681-d2b5a32608c7
+        build_commands:
+          - xcodebuild -project ../SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+        output_path: build/Build/Products/Debug-iphonesimulator/*.app
+pr_review:
+  enabled: true
+  review_triggers:
+    paths: ["**"]
+    drafts: false
+  build:
+    kind: revyl
+    profile: pr-review
+  proof_of_changes:
+    enabled: true
+    start: on_demand
+    labels: ["high-risk-ui"]
+    harness:
+      kind: revyl
+  strict_ci_check:
+    build: true

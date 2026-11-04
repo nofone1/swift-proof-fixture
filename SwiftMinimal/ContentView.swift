@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    private let launchSpeedProof = "Launch speed proof"
     private enum Screen {
         case home
         case details

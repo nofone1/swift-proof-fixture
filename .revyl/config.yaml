@@ -22,8 +22,9 @@ pr_review:
     review_triggers:
         drafts: false
     build:
-        kind: revyl
-        profile: pr-review
+        kind: ci_upload_to_revyl
+        app_ids:
+            ios: 1a24e590-ea0a-4bef-aa90-12aa280fd52b
     proof_of_changes:
         enabled: true
         harness:

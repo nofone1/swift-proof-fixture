@@ -21,6 +21,8 @@ pr_review:
     enabled: true
     review_triggers:
         drafts: false
+        labels:
+            - revl18697
     build:
         kind: revyl
         profile: pr-review

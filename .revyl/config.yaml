@@ -10,7 +10,7 @@ pr_review:
         kind: ci_upload_to_revyl
         app_ids:
             ios:
-                bundle_id: com.revyl.swiftminimal
+                bundle_id: com.revyl.notuploaded
     proof_of_changes:
         enabled: true
         harness:

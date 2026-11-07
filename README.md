@@ -46,3 +46,5 @@ revyl-copenhagen github push --repo nofone1/swift-proof-fixture
 
 Do **not** use the global production `revyl github push` for this repo — that attaches
 production `revyl[bot]` instead of `revyl-dev`.
+
+Proof API auth_bypass check (test PR, do not merge).

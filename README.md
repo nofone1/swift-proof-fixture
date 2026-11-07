@@ -46,3 +46,9 @@ revyl-copenhagen github push --repo nofone1/swift-proof-fixture
 
 Do **not** use the global production `revyl github push` for this repo — that attaches
 production `revyl[bot]` instead of `revyl-dev`.
+
+## rc19231 auth-bypass proof marker
+
+Expected on the Bug Bazaar iOS build under review: a session started with the
+project's Revyl auth bypass opens signed in as **Revyl Test Collector** on the
+Account tab (marker `rc19231-A`). Test PR only; do not merge.

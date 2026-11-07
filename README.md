@@ -51,4 +51,4 @@ production `revyl[bot]` instead of `revyl-dev`.
 
 Expected on the Bug Bazaar iOS build under review: a session started with the
 project's Revyl auth bypass opens signed in as **Revyl Test Collector** on the
-Account tab (marker `rc19231-B`). Test PR only; do not merge.
+Account tab (marker `rc19231-C`). Test PR only; do not merge.

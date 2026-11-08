@@ -46,3 +46,5 @@ revyl-copenhagen github push --repo nofone1/swift-proof-fixture
 
 Do **not** use the global production `revyl github push` for this repo — that attaches
 production `revyl[bot]` instead of `revyl-dev`.
+
+REVL-19930 hosted proof check: the home screen shows the fixture marker.

@@ -48,3 +48,4 @@ Do **not** use the global production `revyl github push` for this repo — that 
 production `revyl[bot]` instead of `revyl-dev`.
 
 REVL-19930 hosted proof check: the home screen shows the fixture marker.
+Second head for the refusal checks.

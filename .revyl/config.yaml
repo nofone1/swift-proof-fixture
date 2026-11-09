@@ -1,7 +1,8 @@
 project:
     id: 661a6e16-d93a-5d57-a289-419091c391dc
 session:
-    before_script: scripts/revyl-before.sh
+    before_script:
+        script_path: scripts/revyl-before.sh
     idle_timeout_seconds: 600
 build:
     framework: ios

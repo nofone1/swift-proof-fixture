@@ -107,3 +107,4 @@ struct ContentView: View {
         }
     }
 }
+// e2e5893 g5: draft PR builds, proof waits for ready

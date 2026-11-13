@@ -107,3 +107,4 @@ struct ContentView: View {
         }
     }
 }
+// e2e5893 g7: proof path filter excludes change: build only

@@ -48,3 +48,4 @@ Do **not** use the global production `revyl github push` for this repo — that 
 production `revyl[bot]` instead of `revyl-dev`.
 Mac proof writer fixture (REVL-32082 runtime check).
 Second commit: automatic Mac start with the switch on.
+Third commit: automatic start with the switch off.

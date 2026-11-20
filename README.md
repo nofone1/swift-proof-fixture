@@ -47,3 +47,4 @@ revyl-copenhagen github push --repo nofone1/swift-proof-fixture
 Do **not** use the global production `revyl github push` for this repo — that attaches
 production `revyl[bot]` instead of `revyl-dev`.
 Mac proof writer fixture (REVL-32082 runtime check).
+Second commit: automatic Mac start with the switch on.

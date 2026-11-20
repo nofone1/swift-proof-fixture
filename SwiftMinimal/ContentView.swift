@@ -21,6 +21,10 @@ struct ContentView: View {
                 Text(screen == .home ? "swift-minimal" : "Details")
                     .font(.system(size: 34, weight: .bold, design: .rounded))
 
+                Text("Build marker: proof-e2e-manual-runs")
+                    .font(.system(size: 14, weight: .semibold, design: .rounded))
+                    .foregroundStyle(Color(red: 0.15, green: 0.45, blue: 0.25))
+
                 Text("Tiny rebuild-first sample for dogfooding onboarding, navigation, and relaunch persistence.")
                     .font(.system(size: 16, weight: .regular, design: .rounded))
                     .foregroundStyle(.secondary)

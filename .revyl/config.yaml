@@ -1,5 +1,5 @@
 project:
-    id: 661a6e16-d93a-5d57-a289-419091c391dc
+    id: 85c0ddf8-235a-46cc-8c0a-a285370c405e
 session:
     idle_timeout_seconds: 600
 build:
@@ -7,20 +7,22 @@ build:
     profiles:
         development:
             ios:
-                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
+                app_id: 875c5fde-e835-43aa-b5c1-b8c7ee58ad85
                 build_commands:
                     - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
                 output_path: build/Build/Products/Debug-iphonesimulator/*.app
         pr-review:
             ios:
-                app_id: fa9056dd-c82e-40ad-8aff-c3055dd8e0be
+                app_id: 875c5fde-e835-43aa-b5c1-b8c7ee58ad85
                 build_commands:
                     - xcodebuild -project SwiftMinimal.xcodeproj -scheme SwiftMinimal -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
-                output_path: build/Build/Products/Debug-iphonesimulator/*.app
+                output_path: build/Build/Products/Debug-iphonesimulator/SwiftMinimalRevl18634Missing*.app
 pr_review:
     enabled: true
     review_triggers:
         drafts: false
+        labels:
+            - revl18634
     build:
         kind: revyl
         profile: pr-review
